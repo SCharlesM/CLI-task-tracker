@@ -15,17 +15,19 @@ print('\nWelcome to cli task tracker....')
 loop = True
 
 while (loop) :
-    command = input('\ntask-cli:')
+    user_command = input('\ntask-cli:')
+    command_list = [user_command]
+    print(command_list)
 
-    if command == 'add' :
+    if command_list[0] == 'add' :
         #print('add to JSON file')
         add_to_list()
 
-    elif command == 'delete' :
+    elif user_command == 'delete' :
         #print('deleting from JSON file')
         delete_from_list()
     
-    elif command == 'end' :
+    elif user_command == 'end' :
         end()
         break
 
