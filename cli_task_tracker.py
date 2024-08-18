@@ -2,8 +2,8 @@
 #from the roadmap.sh project suggestions page
 #
 
-def add_to_list():
-    print('added to list')
+def add_to_list(task):
+    print('added ' + task + ' to list')
 
 def delete_from_list() :
     print('deleted from list')
@@ -11,27 +11,44 @@ def delete_from_list() :
 def end() :
     print('end of cli-task')
 
-print('\nWelcome to cli task tracker....')
+def format_task(string_to_be_formatted):
+    task = string_to_be_formatted.replace('"', '')
+    return task
+
+
+print('\nWelcome to cli task tracker....what would you like to do?')
 loop = True
 
 while (loop) :
-    user_command = input('\ntask-cli:')
-    command_list = [user_command]
+    user_command = input("\ncommand: ")
+    command_list = user_command.split(" ", 2)
     print(command_list)
-
-    if command_list[0] == 'add' :
-        #print('add to JSON file')
-        add_to_list()
-
-    elif user_command == 'delete' :
-        #print('deleting from JSON file')
-        delete_from_list()
     
-    elif user_command == 'end' :
+    if command_list == [] :
+        print("not a task-cli command, commands are:\n")
+        print('task-cli add <task name>\ntask-cli delete <task ID>\nend')
+        pass
+    
+    elif command_list[0] == 'end' :
         end()
         break
 
+    elif command_list[0] != "task-cli" :
+        print("not a task-cli command, commands are:\n")
+        print('task-cli add <task name>\ntask-cli delete <task ID>\nend')
+
+    elif command_list[1] == 'add' :
+        task = format_task(command_list[2])
+        add_to_list(task)
+
+    elif command_list[1] == 'delete' :
+        #print('deleting from JSON file')
+        delete_from_list()
+
     else :
         print('incorrect input')
+        print('commands are: task-cli add <task name>\ntask-cli delete <task ID>\nend')
+
+
 
 
