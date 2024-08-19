@@ -4,6 +4,9 @@
 
 def add_to_list(task):
     print('added ' + task + ' to list')
+# check if there is a JSON file
+#if there is get the next ID
+#if there isn't a file, make 1 with ID = 1
 
 def delete_from_list() :
     print('deleted from list')
