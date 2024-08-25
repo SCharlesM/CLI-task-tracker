@@ -8,6 +8,13 @@ task_list = []
 formatted_timestamp = strftime("%c", localtime())
 
 def add_to_list(task):
+<<<<<<< HEAD
+=======
+    print('added ' + task + ' to list')
+# check if there is a JSON file
+#if there is get the next ID
+#if there isn't a file, make 1 with ID = 1
+>>>>>>> c0a7d7805c1346f4e324a8f00c2556e7099e9779
 
     id = len(task_list) + 1
     task_dictionary = dict(id= id, description = task, status = "to do", createdAt = formatted_timestamp, updatedAt = formatted_timestamp)
