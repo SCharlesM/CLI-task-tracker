@@ -3,35 +3,53 @@
 #
 #from datetime import datetime
 from time import strftime, gmtime, localtime
+import json
 
 task_list = []
 formatted_timestamp = strftime("%c", localtime())
+data = ("empty string")
 
 def add_to_list(task):
-<<<<<<< HEAD
-=======
-    print('added ' + task + ' to list')
-# check if there is a JSON file
-#if there is get the next ID
-#if there isn't a file, make 1 with ID = 1
->>>>>>> c0a7d7805c1346f4e324a8f00c2556e7099e9779
 
+    #make a dictionary and add a unique id, task description, status, createdAt and updatedAt
     id = len(task_list) + 1
     task_dictionary = dict(id= id, description = task, status = "to do", createdAt = formatted_timestamp, updatedAt = formatted_timestamp)
+
+    #add the dictionary to the task_list,
     task_list.append(task_dictionary)
+
+    #open an file and append the task list
+    with open("list_data.json", "w") as output_file:
+        json.dump(task_list, output_file, indent = 2)
+
     print("\nTask added successfully (ID: " + str(id) + ")")
-    print(task_list)
+
+def print_task_list():
+
+    #open JSON file as 'read'
+    with open('list_data.json', 'r') as openfile:
+        
+        #reading from JSON file
+        #data = json.load(openfile)
+        pass
+
+    #access and process the retrieved JSON data
+    print(data)
+
+   
 
 def update_list(task_id, new_description):
     
-    
-    print(new_description)
-
-
+    #find the dictionary with id = task_id
+    #change the description to new_descrption
+    for x in task_list :
+        temp_dictionary = task_list[x]
+        if temp_dictionary['id'] == 2 :
+            print("this is id 2")
 
 def delete_from_list(task_id) :
     task_list.pop(task_id-1)
-    print(task_list)
+    print("\ndeleted task ID: " + str(task_id))
 
 def end() :
     print('end of cli-task')
