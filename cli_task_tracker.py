@@ -7,31 +7,47 @@ import json
 
 task_list = []
 formatted_timestamp = strftime("%c", localtime())
-data = ("empty string")
+data = ("")
+
+#function to write the list of dictionaries to JSON file list_data.json
+def write_to_json(input_list) :
+    
+    #open an file and write the new_list to the file
+    with open("list_data.json", "w") as output_file:
+        json.dump(input_list, output_file, indent = 2)
+
+#function to read a list of dictionaries from JSON file list_data.json
+def read_from_json() :
+    
+    #open a file and read the contents into 'output_list
+    with open('list_data.json', 'r') as openfile:
+        output_list = json.load(openfile)
+
+    return(output_list)
 
 def add_to_list(task):
 
     #make a dictionary and add a unique id, task description, status, createdAt and updatedAt
     id = len(task_list) + 1
-    task_dictionary = dict(id= id, description = task, status = "to do", createdAt = formatted_timestamp, updatedAt = formatted_timestamp)
+    task_dictionary = dict(id= id, description = task, status = "todo", createdAt = formatted_timestamp, updatedAt = formatted_timestamp)
 
     #add the dictionary to the task_list,
     task_list.append(task_dictionary)
 
-    #open an file and append the task list
-    with open("list_data.json", "w") as output_file:
-        json.dump(task_list, output_file, indent = 2)
+    write_to_json(task_list)
 
     print("\nTask added successfully (ID: " + str(id) + ")")
 
 def print_task_list():
 
+    data = read_from_json()
+    """
     #open JSON file as 'read'
     with open('list_data.json', 'r') as openfile:
         
         #reading from JSON file
         data = json.load(openfile)
-
+    """
     #access and process the retrieved JSON data
     #print(data)
     #print(len(data))
@@ -45,26 +61,38 @@ def print_task_list():
         #, extract['status'], extract['createdAt'], extract['updatedAt'])
         i += 1
 
-def print_by_status(status):
+def print_by_status(status_reference):
 
-    #open JSON file as 'read'
-    with open('list_data.json', 'r') as openfile:
-        
-        #reading from JSON file
-        data = json.load(openfile)
+    data = read_from_json()
 
     #access and process the retrieved JSON data
-   
+    i = 0
+    while i < len(data) :
+        extract = data[i]
+
+        if extract['status'] == status_reference :
+            print("all tasks that are status: " + status_reference)
+            print(extract['id'], ". ", extract['description'], ", ", extract['status'], ", ", extract['createdAt'], ". ", extract['updatedAt'])
+    
 
 def update_list(task_id, new_description):
     
-    #find the dictionary with id = task_id
-    #change the description to new_descrption
-    for x in task_list :
-        temp_dictionary = task_list[x]
-        if temp_dictionary['id'] == 2 :
-            print("this is id 2")
+    #read the JSON file, iterate through the IDs, change the description
+    data = read_from_json()
 
+    #print(type(data))
+    
+    i = 0 
+    while i < len(data) :
+        extract = data[i]
+        #print("type of extract is: " + str(type(extract)))
+        if extract['id'] == task_id :
+            #print("found id 1")
+            extract['description'] = new_description
+            print(extract)
+            #write_to_json()
+        i += 1       
+    
 def delete_from_list(task_id) :
     task_list.pop(task_id-1)
     print("\ndeleted task ID: " + str(task_id))
