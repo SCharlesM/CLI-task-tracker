@@ -27,6 +27,7 @@ def read_from_json() :
 
 def add_to_list(task):
 
+#I think I need to read the JSON file here, then add the data to task_list and continue
     #make a dictionary and add a unique id, task description, status, createdAt and updatedAt
     id = len(task_list) + 1
     task_dictionary = dict(id= id, description = task, status = "todo", createdAt = formatted_timestamp, updatedAt = formatted_timestamp)
