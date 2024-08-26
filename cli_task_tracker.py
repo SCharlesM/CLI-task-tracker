@@ -30,12 +30,30 @@ def print_task_list():
     with open('list_data.json', 'r') as openfile:
         
         #reading from JSON file
-        #data = json.load(openfile)
-        pass
+        data = json.load(openfile)
 
     #access and process the retrieved JSON data
-    print(data)
+    #print(data)
+    #print(len(data))
 
+    print("\nTask ID, description, status, date and time created, date and time updated")
+    
+    i = 0
+    while i < len(data) :
+        extract = data[i]
+        print(extract['id'], ". ", extract['description'], ", ", extract['status'], ", ", extract['createdAt'], ". ", extract['updatedAt'])
+        #, extract['status'], extract['createdAt'], extract['updatedAt'])
+        i += 1
+
+def print_by_status(status):
+
+    #open JSON file as 'read'
+    with open('list_data.json', 'r') as openfile:
+        
+        #reading from JSON file
+        data = json.load(openfile)
+
+    #access and process the retrieved JSON data
    
 
 def update_list(task_id, new_description):
