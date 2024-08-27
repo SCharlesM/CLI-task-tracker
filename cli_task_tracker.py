@@ -77,10 +77,22 @@ def update_list(task_id, new_description):
             extract['description'] = new_description
             write_to_json(data)
         i += 1       
-    
+
+#a function to remove a task. in practice, it removes a dictionary from a list.
+# read the json file, iterate through the ids to find the task/dictionary to delete,
+# then pop() from the list 
 def delete_from_list(task_id) :
-    task_list.pop(task_id-1)
-    print("\ndeleted task ID: " + str(task_id))
+
+    data = read_from_json()
+
+    x = 0
+    while x < len(data) :
+        extract = data[x]
+        if extract['id'] == task_id :
+            data.pop(x)
+        x += 1
+
+    write_to_json(data)
 
 def end() :
     print('end of cli-task')
