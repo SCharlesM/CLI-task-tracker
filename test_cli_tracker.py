@@ -22,3 +22,6 @@ print_task_list()
 
 #update_list(2, "go to shops and post office")
 
+#what if I add 'add_to_list' later
+#i don't have tests for edge cases / all eventualities 
+
