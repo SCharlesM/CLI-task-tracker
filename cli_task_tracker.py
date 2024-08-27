@@ -49,7 +49,6 @@ def print_task_list():
     while i < len(data) :
         extract = data[i]
         print(extract['id'], ". ", extract['description'], ", ", extract['status'], ", ", extract['createdAt'], ". ", extract['updatedAt'])
-        #, extract['status'], extract['createdAt'], extract['updatedAt'])
         i += 1
 
 def print_by_status(status_reference):
@@ -70,18 +69,13 @@ def update_list(task_id, new_description):
     
     #read the JSON file, iterate through the IDs, change the description
     data = read_from_json()
-
-    #print(type(data))
     
     i = 0 
     while i < len(data) :
         extract = data[i]
-        #print("type of extract is: " + str(type(extract)))
         if extract['id'] == task_id :
-            #print("found id 1")
             extract['description'] = new_description
-            print(extract)
-            #write_to_json()
+            write_to_json(data)
         i += 1       
     
 def delete_from_list(task_id) :
