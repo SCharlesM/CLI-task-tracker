@@ -42,16 +42,6 @@ def add_to_list(task):
 def print_task_list():
 
     data = read_from_json()
-    """
-    #open JSON file as 'read'
-    with open('list_data.json', 'r') as openfile:
-        
-        #reading from JSON file
-        data = json.load(openfile)
-    """
-    #access and process the retrieved JSON data
-    #print(data)
-    #print(len(data))
 
     print("\nTask ID, description, status, date and time created, date and time updated")
     
