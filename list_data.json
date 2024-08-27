@@ -2,29 +2,29 @@
   {
     "id": 1,
     "description": "make a list",
-    "status": "to do",
-    "createdAt": "Mon Aug 26 13:21:21 2024",
-    "updatedAt": "Mon Aug 26 13:21:21 2024"
+    "status": "todo",
+    "createdAt": "Mon Aug 26 21:54:58 2024",
+    "updatedAt": "Mon Aug 26 21:54:58 2024"
   },
   {
     "id": 2,
     "description": "go to shops",
-    "status": "to do",
-    "createdAt": "Mon Aug 26 13:21:21 2024",
-    "updatedAt": "Mon Aug 26 13:21:21 2024"
+    "status": "todo",
+    "createdAt": "Mon Aug 26 21:54:58 2024",
+    "updatedAt": "Mon Aug 26 21:54:58 2024"
   },
   {
     "id": 3,
     "description": "buy groceries",
-    "status": "to do",
-    "createdAt": "Mon Aug 26 13:21:21 2024",
-    "updatedAt": "Mon Aug 26 13:21:21 2024"
+    "status": "todo",
+    "createdAt": "Mon Aug 26 21:54:58 2024",
+    "updatedAt": "Mon Aug 26 21:54:58 2024"
   },
   {
     "id": 4,
     "description": "cook dinner",
-    "status": "to do",
-    "createdAt": "Mon Aug 26 13:21:21 2024",
-    "updatedAt": "Mon Aug 26 13:21:21 2024"
+    "status": "todo",
+    "createdAt": "Mon Aug 26 21:54:58 2024",
+    "updatedAt": "Mon Aug 26 21:54:58 2024"
   }
 ]
