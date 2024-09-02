@@ -51,6 +51,8 @@ def print_task_list():
         print(extract['id'], ". ", extract['description'], ", ", extract['status'], ", ", extract['createdAt'], ". ", extract['updatedAt'])
         i += 1
 
+#a function to print the task by status
+#read the json file, iterate through dictionaries to find correct status and print
 def print_by_status(status_reference):
 
     data = read_from_json()
@@ -63,7 +65,7 @@ def print_by_status(status_reference):
         if extract['status'] == status_reference :
             print("all tasks that are status: " + status_reference)
             print(extract['id'], ". ", extract['description'], ", ", extract['status'], ", ", extract['createdAt'], ". ", extract['updatedAt'])
-    
+        i += 1
 
 def update_list(task_id, new_description):
     
@@ -75,6 +77,7 @@ def update_list(task_id, new_description):
         extract = data[i]
         if extract['id'] == task_id :
             extract['description'] = new_description
+            extract['updatedAt'] = formatted_timestamp
             write_to_json(data)
         i += 1       
 
@@ -83,6 +86,7 @@ def update_list(task_id, new_description):
 # then pop() from the list 
 def delete_from_list(task_id) :
 
+    print('\ndeleting task', task_id, 'from list')
     data = read_from_json()
 
     x = 0
@@ -92,6 +96,22 @@ def delete_from_list(task_id) :
             data.pop(x)
         x += 1
 
+    write_to_json(data)
+
+#a function to change the status of the task
+#read the json file, find the id and change the status
+# I need to add a check for the correct status' <todo, in progress, done>
+def change_status(task_id, status) :
+
+    data = read_from_json()
+
+    x = 0
+    while x < len(data) :
+        extract = data[x]
+        if extract['id'] == task_id :
+            extract['status'] = status
+        i += 1
+    
     write_to_json(data)
 
 def end() :
