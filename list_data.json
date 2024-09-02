@@ -1,30 +1,30 @@
 [
   {
     "id": 1,
-    "description": "make a list",
-    "status": "todo",
-    "createdAt": "Mon Aug 26 21:54:58 2024",
-    "updatedAt": "Mon Aug 26 21:54:58 2024"
+    "description": "make a list and do the pantry list",
+    "status": "in progress",
+    "createdAt": "Mon Sep  2 20:49:09 2024",
+    "updatedAt": "Mon Sep  2 21:06:41 2024"
   },
   {
     "id": 2,
-    "description": "go to shops",
-    "status": "todo",
-    "createdAt": "Mon Aug 26 21:54:58 2024",
-    "updatedAt": "Mon Aug 26 21:54:58 2024"
-  },
-  {
-    "id": 3,
-    "description": "buy groceries",
-    "status": "todo",
-    "createdAt": "Mon Aug 26 21:54:58 2024",
-    "updatedAt": "Mon Aug 26 21:54:58 2024"
+    "description": "go to the Aldi and Lidl",
+    "status": "done",
+    "createdAt": "Mon Sep  2 20:49:09 2024",
+    "updatedAt": "Mon Sep  2 21:06:41 2024"
   },
   {
     "id": 4,
     "description": "cook dinner",
     "status": "todo",
-    "createdAt": "Mon Aug 26 21:54:58 2024",
-    "updatedAt": "Mon Aug 26 21:54:58 2024"
+    "createdAt": "Mon Sep  2 20:49:09 2024",
+    "updatedAt": "Mon Sep  2 20:49:09 2024"
+  },
+  {
+    "id": 5,
+    "description": "re-write add to list function with JSON",
+    "status": "todo",
+    "createdAt": "Mon Sep  2 20:49:09 2024",
+    "updatedAt": "Mon Sep  2 20:49:09 2024"
   }
 ]

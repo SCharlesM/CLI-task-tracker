@@ -25,6 +25,16 @@ def read_from_json() :
 
     return(output_list)
 
+"""
+add_to_list - a function to make add a task to list
+make a dictionary, add the next ID, task description, status, createdAt and updatedAt
+"""
+def add_to_list(task):
+
+    data = read_from_json()
+
+
+"""
 def add_to_list(task):
 
 #I think I need to read the JSON file here, then add the data to task_list and continue
@@ -38,7 +48,7 @@ def add_to_list(task):
     write_to_json(task_list)
 
     print("\nTask added successfully (ID: " + str(id) + ")")
-
+"""
 def print_task_list():
 
     data = read_from_json()
@@ -63,7 +73,7 @@ def print_by_status(status_reference):
         extract = data[i]
 
         if extract['status'] == status_reference :
-            print("\nall tasks that are status: " + status_reference)
+            print("\nListing all tasks that are status: ", status_reference)
             print(extract['id'], ". ", extract['description'], ", ", extract['status'], ", ", extract['createdAt'], ". ", extract['updatedAt'])
         i += 1
 
@@ -82,7 +92,7 @@ def update_list(task_id, new_description):
             data[i] = extract
         
         i += 1    
-           
+
     write_to_json(data)
 
 #a function to remove a task. in practice, it removes a dictionary from a list.
@@ -106,6 +116,8 @@ def delete_from_list(task_id) :
 #read the json file, find the id and change the status
 # I need to add a check for the correct status' <todo, in progress, done>
 def change_status(task_id, status) :
+
+    print('\nchanging status of task', task_id)
 
     data = read_from_json()
 
