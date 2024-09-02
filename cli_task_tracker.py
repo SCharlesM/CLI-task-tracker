@@ -63,12 +63,13 @@ def print_by_status(status_reference):
         extract = data[i]
 
         if extract['status'] == status_reference :
-            print("all tasks that are status: " + status_reference)
+            print("\nall tasks that are status: " + status_reference)
             print(extract['id'], ". ", extract['description'], ", ", extract['status'], ", ", extract['createdAt'], ". ", extract['updatedAt'])
         i += 1
 
 def update_list(task_id, new_description):
     
+    print('\nupdating task', task_id)
     #read the JSON file, iterate through the IDs, change the description
     data = read_from_json()
     
@@ -77,9 +78,12 @@ def update_list(task_id, new_description):
         extract = data[i]
         if extract['id'] == task_id :
             extract['description'] = new_description
-            extract['updatedAt'] = formatted_timestamp
-            write_to_json(data)
-        i += 1       
+            extract['updatedAt'] = formatted_timestamp #does this timestamp need to change?
+            data[i] = extract
+        
+        i += 1    
+           
+    write_to_json(data)
 
 #a function to remove a task. in practice, it removes a dictionary from a list.
 # read the json file, iterate through the ids to find the task/dictionary to delete,
@@ -110,7 +114,7 @@ def change_status(task_id, status) :
         extract = data[x]
         if extract['id'] == task_id :
             extract['status'] = status
-        i += 1
+        x += 1
     
     write_to_json(data)
 
