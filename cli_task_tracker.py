@@ -28,7 +28,7 @@ def read_from_json() :
         except  json.decoder.JSONDecodeError:
             print ('this is JSON decode error, is the JSON file empty?')
 
-    if output_list == None :
+    if output_list == [] :
         pass
     else :
         return(output_list)
@@ -53,7 +53,7 @@ def add_to_list(task):
         write_to_json(task_list)
     else :
         i = 0 
-        while i <len(data) :
+        while i <len(data) :    #len() may be wrong when id's get deleted
             extract = data[i]
             max_id = extract['id']
             i += 1
@@ -64,20 +64,7 @@ def add_to_list(task):
 
     write_to_json(data)
     print('Task added successfully (ID: ', current_id, ')')
-"""
-def add_to_list(task):
 
-#I think I need to read the JSON file here, then add the data to task_list and continue
-    #make a dictionary and add a unique id, task description, status, createdAt and updatedAt
-    id = len(task_list) + 1
-    task_dictionary = dict(id= id, description = task, status = "todo", createdAt = formatted_timestamp, updatedAt = formatted_timestamp)
-    #add the dictionary to the task_list,
-    task_list.append(task_dictionary)
-
-    write_to_json(task_list)
-
-    print("\nTask added successfully (ID: " + str(id) + ")")
-"""
 def print_task_list():
 
     data = read_from_json()
@@ -115,7 +102,7 @@ def update_list(task_id, new_description):
     i = 0 
     while i < len(data) :
         extract = data[i]
-        if extract['id'] == task_id :
+        if extract['id'] == int(task_id) :
             extract['description'] = new_description
             extract['updatedAt'] = formatted_timestamp #does this timestamp need to change?
             data[i] = extract
@@ -153,7 +140,7 @@ def change_status(task_id, status) :
     x = 0
     while x < len(data) :
         extract = data[x]
-        if extract['id'] == task_id :
+        if extract['id'] == int(task_id) :
             extract['status'] = status
         x += 1
     
@@ -171,7 +158,7 @@ loop = True
 
 while (loop) :
     user_command = input("\ncommand: ")
-    command_list = user_command.split(" ", 2)
+    command_list = user_command.split(" ", 3)
     #print(command_list)
     
     if command_list == [] :
@@ -197,11 +184,17 @@ while (loop) :
 
     elif command_list[1] == 'update' :
         print('updating JSON file')
-        update_list(command_list[2], command_list[3])
+
+        update_list(command_list[2], format_task(command_list[3]))
 
     elif command_list[1] == 'list' :
-        print_task_list
+        print_task_list()
 
+    elif command_list[1] == 'mark-done' :
+        change_status(command_list[2], 'done')
+
+    elif command_list[1] == 'mark-in-progress' :
+        change_status(command_list[2], 'in-progress')
     else :
         print('incorrect input')
         print('commands are: task-cli add <task name>\ntask-cli delete <task ID>\nend')
