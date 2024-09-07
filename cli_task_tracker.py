@@ -5,7 +5,7 @@
 from time import strftime, gmtime, localtime
 import json
 
-task_list = []
+#task_list = []
 formatted_timestamp = strftime("%c", localtime())
 data = ("")
 
@@ -18,12 +18,20 @@ def write_to_json(input_list) :
 
 #function to read a list of dictionaries from JSON file list_data.json
 def read_from_json() :
+
+    output_list = []
     
     #open a file and read the contents into 'output_list
     with open('list_data.json', 'r') as openfile:
-        output_list = json.load(openfile)
+        try:
+            output_list = json.load(openfile)
+        except  json.decoder.JSONDecodeError:
+            print ('this is JSON decode error, is the JSON file empty?')
 
-    return(output_list)
+    if output_list == None :
+        pass
+    else :
+        return(output_list)
 
 """
 add_to_list - a function to make add a task to list
@@ -33,20 +41,26 @@ def add_to_list(task):
 
     max_id = 0
     current_id = 0
+    task_list = []
 
     data = read_from_json()
 
     #read the data from the JSON file, find the biggest ID
     #if the file is empty start with ID 1
-    i = 0 
-    while i <len(data) :
-        extract = data[i]
-        max_id = extract['id']
-        i += 1
+    if data == None :
+        task_dictionary = dict(id = 1, description = task, status = 'todo', createdAt = formatted_timestamp, updatedAt = formatted_timestamp)
+        task_list.append(task_dictionary)
+        write_to_json(task_list)
+    else :
+        i = 0 
+        while i <len(data) :
+            extract = data[i]
+            max_id = extract['id']
+            i += 1
     
-    current_id = max_id + 1
-    task_dictionary = dict(id = current_id, description = task, status = 'todo', createdAt = formatted_timestamp, updatedAt = formatted_timestamp)
-    data.append(task_dictionary)
+        current_id = max_id + 1
+        task_dictionary = dict(id = current_id, description = task, status = 'todo', createdAt = formatted_timestamp, updatedAt = formatted_timestamp)
+        data.append(task_dictionary)
 
     write_to_json(data)
 
