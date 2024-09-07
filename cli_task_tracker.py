@@ -40,7 +40,7 @@ make a dictionary, add the next ID, task description, status, createdAt and upda
 def add_to_list(task):
 
     max_id = 0
-    current_id = 0
+    current_id = 1
     task_list = []
 
     data = read_from_json()
@@ -63,7 +63,7 @@ def add_to_list(task):
         data.append(task_dictionary)
 
     write_to_json(data)
-
+    print('Task added successfully (ID: ', current_id, ')')
 """
 def add_to_list(task):
 
