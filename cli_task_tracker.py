@@ -31,8 +31,24 @@ make a dictionary, add the next ID, task description, status, createdAt and upda
 """
 def add_to_list(task):
 
+    max_id = 0
+    current_id = 0
+
     data = read_from_json()
 
+    #read the data from the JSON file, find the biggest ID
+    #if the file is empty start with ID 1
+    i = 0 
+    while i <len(data) :
+        extract = data[i]
+        max_id = extract['id']
+        i += 1
+    
+    current_id = max_id + 1
+    task_dictionary = dict(id = current_id, description = task, status = 'todo', createdAt = formatted_timestamp, updatedAt = formatted_timestamp)
+    data.append(task_dictionary)
+
+    write_to_json(data)
 
 """
 def add_to_list(task):
@@ -41,7 +57,6 @@ def add_to_list(task):
     #make a dictionary and add a unique id, task description, status, createdAt and updatedAt
     id = len(task_list) + 1
     task_dictionary = dict(id= id, description = task, status = "todo", createdAt = formatted_timestamp, updatedAt = formatted_timestamp)
-
     #add the dictionary to the task_list,
     task_list.append(task_dictionary)
 
@@ -137,9 +152,8 @@ def format_task(string_to_be_formatted):
     task = string_to_be_formatted.replace('"', '')
     return task
 
-"""
 print('\nWelcome to cli task tracker....what would you like to do?')
-loop = False
+loop = True
 
 while (loop) :
     user_command = input("\ncommand: ")
@@ -157,18 +171,23 @@ while (loop) :
 
     elif command_list[0] != "task-cli" :
         print("not a task-cli command, commands are:\n")
-        print('task-cli add <task name>\ntask-cli delete <task ID>\nend')
+        print('task-cli add <task name>\ntask-cli update ID <task name>\ntask-cli delete <task ID>\ntask-cli mark-in-progress ID\ntask-cli mark-done ID\ntask-cli list\nend')
 
     elif command_list[1] == 'add' :
         task = format_task(command_list[2])
         add_to_list(task)
 
     elif command_list[1] == 'delete' :
-        #print('deleting from JSON file')
+        print('deleting from JSON file')
         delete_from_list()
+
+    elif command_list[1] == 'update' :
+        print('updating JSON file')
+        update_list(command_list[2], command_list[3])
+
+    elif command_list[1] == 'list' :
+        print_task_list
 
     else :
         print('incorrect input')
         print('commands are: task-cli add <task name>\ntask-cli delete <task ID>\nend')
-
-"""
