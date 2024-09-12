@@ -158,7 +158,7 @@ loop = True
 
 while (loop) :
     user_command = input("\ncommand: ")
-    command_list = user_command.split(" ", 3)
+    command_list = user_command.split(" ", 2)
     #print(command_list)
     
     if command_list == [] :
