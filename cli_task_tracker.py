@@ -122,7 +122,7 @@ def delete_from_list(task_id) :
     x = 0
     while x < len(data) :
         extract = data[x]
-        if extract['id'] == task_id :
+        if extract['id'] == int(task_id) :
             data.pop(x)
         x += 1
 
@@ -179,8 +179,8 @@ while (loop) :
         add_to_list(task)
 
     elif command_list[1] == 'delete' :
-        print('deleting from JSON file')
-        delete_from_list()
+        #print('deleting from JSON file')
+        delete_from_list(command_list[2])
 
     elif command_list[1] == 'update' :
         print('updating JSON file')
