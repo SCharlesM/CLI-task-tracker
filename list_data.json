@@ -1,30 +1,58 @@
 [
   {
-    "id": 1,
-    "description": "make a list and do the pantry list",
-    "status": "in progress",
-    "createdAt": "Mon Sep  2 20:49:09 2024",
-    "updatedAt": "Mon Sep  2 21:06:41 2024"
-  },
-  {
-    "id": 2,
-    "description": "go to the Aldi and Lidl",
+    "id": 3,
+    "description": "third",
     "status": "done",
-    "createdAt": "Mon Sep  2 20:49:09 2024",
-    "updatedAt": "Mon Sep  2 21:06:41 2024"
+    "createdAt": "Sat Sep  7 21:12:37 2024",
+    "updatedAt": "Sat Sep  7 21:12:37 2024"
   },
   {
     "id": 4,
-    "description": "cook dinner",
+    "description": "make",
     "status": "todo",
-    "createdAt": "Mon Sep  2 20:49:09 2024",
-    "updatedAt": "Mon Sep  2 20:49:09 2024"
+    "createdAt": "Thu Sep 12 21:19:49 2024",
+    "updatedAt": "Thu Sep 12 21:19:49 2024"
   },
   {
     "id": 5,
-    "description": "re-write add to list function with JSON",
+    "description": "make a list",
     "status": "todo",
-    "createdAt": "Mon Sep  2 20:49:09 2024",
-    "updatedAt": "Mon Sep  2 20:49:09 2024"
+    "createdAt": "Thu Sep 12 21:19:49 2024",
+    "updatedAt": "Thu Sep 12 21:19:49 2024"
+  },
+  {
+    "id": 6,
+    "description": "fix",
+    "status": "in-progress",
+    "createdAt": "Thu Sep 12 21:55:01 2024",
+    "updatedAt": "Thu Sep 12 21:55:01 2024"
+  },
+  {
+    "id": 7,
+    "description": "debug this function",
+    "status": "todo",
+    "createdAt": "Thu Sep 12 22:03:31 2024",
+    "updatedAt": "Thu Sep 12 22:03:31 2024"
+  },
+  {
+    "id": 8,
+    "description": "what is the next thing to do?",
+    "status": "done",
+    "createdAt": "Fri Sep 13 21:57:21 2024",
+    "updatedAt": "Fri Sep 13 21:57:21 2024"
+  },
+  {
+    "id": 9,
+    "description": "i need to look at edge cases",
+    "status": "todo",
+    "createdAt": "Sun Sep 15 21:18:49 2024",
+    "updatedAt": "Sun Sep 15 21:18:49 2024"
+  },
+  {
+    "id": 10,
+    "description": "",
+    "status": "todo",
+    "createdAt": "Sun Sep 15 21:18:49 2024",
+    "updatedAt": "Sun Sep 15 21:18:49 2024"
   }
 ]
