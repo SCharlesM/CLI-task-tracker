@@ -85,11 +85,13 @@ def print_by_status(status_reference):
 
     #access and process the retrieved JSON data
     i = 0
+
+    print("\nListing all tasks that are status: ", status_reference)
+
     while i < len(data) :
         extract = data[i]
 
         if extract['status'] == status_reference :
-            print("\nListing all tasks that are status: ", status_reference)
             print(extract['id'], ". ", extract['description'], ", ", extract['status'], ", ", extract['createdAt'], ". ", extract['updatedAt'])
         i += 1
 
@@ -159,7 +161,6 @@ loop = True
 while (loop) :
     user_command = input("\ncommand: ")
     command_list = user_command.split(" ", 2)
-    #print(command_list)
     
     if command_list == [] :
         print("not a task-cli command, commands are:\n")
@@ -179,22 +180,26 @@ while (loop) :
         add_to_list(task)
 
     elif command_list[1] == 'delete' :
-        #print('deleting from JSON file')
         delete_from_list(command_list[2])
 
     elif command_list[1] == 'update' :
         print('updating JSON file')
-
         update_list(command_list[2], format_task(command_list[3]))
 
     elif command_list[1] == 'list' :
-        print_task_list()
+        if len(command_list) == 2 :
+            print_task_list()
+        elif command_list[2] == 'done' :
+            print_by_status('done')
+        elif command_list[2] == 'in-progress' :
+            print_by_status('in-progress')
 
     elif command_list[1] == 'mark-done' :
         change_status(command_list[2], 'done')
 
     elif command_list[1] == 'mark-in-progress' :
         change_status(command_list[2], 'in-progress')
+
     else :
         print('incorrect input')
         print('commands are: task-cli add <task name>\ntask-cli delete <task ID>\nend')
