@@ -158,9 +158,13 @@ def format_task(string_to_be_formatted):
 if __name__ == "__main__":
         
     acceptable_inputs = {
-    'hi' : print('you inputed hi'),
-    'bye' : print('you inputted bye'),
-    'steve' : print('you inputted steve'),
+        'task-cli add ' : add_to_list,
+        'task-cli update ' : update_list,
+        'task-cli delete ' : delete_from_list,
+        'task-cli mark-in-progress ' : change_status,
+        'task-cli mark-done ' :change_status,
+        'task-cli list' : print_task_list,
+        'end' : end
     }
 
     print('\nWelcome to cli task tracker....what would you like to do?')
@@ -168,14 +172,19 @@ if __name__ == "__main__":
 
     while (loop) :
 
-        user_command = input("\ncommand: ")
-        command_list = user_command.split(" ", 2)
+        user_command = input("\nCommand: ")
+        command_list = user_command.split(' ')
         
-        selection = acceptable_inputs.get(user_command)         #working on this
-
+        if command_list[0] in acceptable_inputs :
+            acceptable_inputs[command_list[0]]()        #working on this
+        else :
+            print("not a task-cli command, commands are:\n")
+            print('task-cli add <task name>\ntask-cli update <ID> <task name>\ntask-cli delete <task ID>\ntask-cli mark-in-progress <ID>\ntask-cli mark-done <ID>\ntask-cli list\nend')
+                  
+        """
         if selection == None:
             print('not an acceptable input. try again')
-        
+        """
         """
         if user_command in acceptable_inputs :
             print("this is an acceptable_input")
@@ -194,7 +203,9 @@ if __name__ == "__main__":
 
         elif command_list[0] != "task-cli" :
             print("not a task-cli command, commands are:\n")
-            print('task-cli add <task name>\ntask-cli update ID <task name>\ntask-cli delete <task ID>\ntask-cli mark-in-progress ID\ntask-cli mark-done ID\ntask-cli list\nend')
+            print('task-cli add <task name>\ntask-cli update ID <task name>
+            \ntask-cli delete <task ID>\ntask-cli mark-in-progress ID
+            \ntask-cli mark-done ID\ntask-cli list\nend')
 
         elif command_list[1] == 'add' :
             task = format_task(command_list[2])
