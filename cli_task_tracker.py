@@ -155,51 +155,73 @@ def format_task(string_to_be_formatted):
     task = string_to_be_formatted.replace('"', '')
     return task
 
-print('\nWelcome to cli task tracker....what would you like to do?')
-loop = True
+if __name__ == "__main__":
+        
+    acceptable_inputs = {
+    'hi' : print('you inputed hi'),
+    'bye' : print('you inputted bye'),
+    'steve' : print('you inputted steve'),
+    }
 
-while (loop) :
-    user_command = input("\ncommand: ")
-    command_list = user_command.split(" ", 2)
-    
-    if command_list == [] :
-        print("not a task-cli command, commands are:\n")
-        print('task-cli add <task name>\ntask-cli delete <task ID>\nend')
-        pass
-    
-    elif command_list[0] == 'end' :
-        end()
-        break
+    print('\nWelcome to cli task tracker....what would you like to do?')
+    loop = True
 
-    elif command_list[0] != "task-cli" :
-        print("not a task-cli command, commands are:\n")
-        print('task-cli add <task name>\ntask-cli update ID <task name>\ntask-cli delete <task ID>\ntask-cli mark-in-progress ID\ntask-cli mark-done ID\ntask-cli list\nend')
+    while (loop) :
 
-    elif command_list[1] == 'add' :
-        task = format_task(command_list[2])
-        add_to_list(task)
+        user_command = input("\ncommand: ")
+        command_list = user_command.split(" ", 2)
+        
+        selection = acceptable_inputs.get(user_command)         #working on this
 
-    elif command_list[1] == 'delete' :
-        delete_from_list(command_list[2])
+        if selection == None:
+            print('not an acceptable input. try again')
+        
+        """
+        if user_command in acceptable_inputs :
+            print("this is an acceptable_input")
+        else :
+            print("this isn't an acceptable input")
+        """
+        """
+        if command_list == [] :
+            print("not a task-cli command, commands are:\n")
+            print('task-cli add <task name>\ntask-cli delete <task ID>\nend')
+            pass
+        
+        elif command_list[0] == 'end' :
+            end()
+            break
 
-    elif command_list[1] == 'update' :
-        print('updating JSON file')
-        update_list(command_list[2], format_task(command_list[3]))
+        elif command_list[0] != "task-cli" :
+            print("not a task-cli command, commands are:\n")
+            print('task-cli add <task name>\ntask-cli update ID <task name>\ntask-cli delete <task ID>\ntask-cli mark-in-progress ID\ntask-cli mark-done ID\ntask-cli list\nend')
 
-    elif command_list[1] == 'list' :
-        if len(command_list) == 2 :
-            print_task_list()
-        elif command_list[2] == 'done' :
-            print_by_status('done')
-        elif command_list[2] == 'in-progress' :
-            print_by_status('in-progress')
+        elif command_list[1] == 'add' :
+            task = format_task(command_list[2])
+            add_to_list(task)
 
-    elif command_list[1] == 'mark-done' :
-        change_status(command_list[2], 'done')
+        elif command_list[1] == 'delete' :
+            delete_from_list(command_list[2])
 
-    elif command_list[1] == 'mark-in-progress' :
-        change_status(command_list[2], 'in-progress')
+        elif command_list[1] == 'update' :
+            print('updating JSON file')
+            update_list(command_list[2], format_task(command_list[3]))
 
-    else :
-        print('incorrect input')
-        print('commands are: task-cli add <task name>\ntask-cli delete <task ID>\nend')
+        elif command_list[1] == 'list' :
+            if len(command_list) == 2 :
+                print_task_list()
+            elif command_list[2] == 'done' :
+                print_by_status('done')
+            elif command_list[2] == 'in-progress' :
+                print_by_status('in-progress')
+
+        elif command_list[1] == 'mark-done' :
+            change_status(command_list[2], 'done')
+
+        elif command_list[1] == 'mark-in-progress' :
+            change_status(command_list[2], 'in-progress')
+
+        else :
+            print('incorrect input')
+            print('commands are: task-cli add <task name>\ntask-cli delete <task ID>\nend')
+        """
