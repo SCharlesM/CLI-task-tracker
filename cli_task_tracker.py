@@ -158,12 +158,14 @@ def format_task(string_to_be_formatted):
 if __name__ == "__main__":
         
     acceptable_inputs = {
-        'task-cli add ' : add_to_list,
-        'task-cli update ' : update_list,
-        'task-cli delete ' : delete_from_list,
-        'task-cli mark-in-progress ' : change_status,
-        'task-cli mark-done ' :change_status,
-        'task-cli list' : print_task_list,
+
+        'task-cli' : ' '
+        'add' : add_to_list,
+        'update ' : update_list,
+        'delete ' : delete_from_list,
+        'mark-in-progress ' : change_status,
+        'mark-done ' :change_status,
+        'list' : print_task_list,
         'end' : end
     }
 
