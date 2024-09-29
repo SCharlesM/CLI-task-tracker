@@ -161,26 +161,35 @@ def format_task(string_to_be_formatted):
 
 if __name__ == "__main__":
 
-    input_check2 = {
-        'add ' : add_to_list,
-        'update ' : update_list,
-        'delete ' : delete_from_list,
-        'mark-in-progress ' : change_status,
-        'mark-done ' :change_status,
-        'list' : print_task_list,
+    input_check = {
+        'add' : add_to_list,
+        'update' : update_list,
+        'delete' : delete_from_list,
+        'mark-in-progress' : change_status,
+        'mark-done' :change_status,
+        'list' : print_by_status,
     }
+    
+    input_error_message = 'not a task-cli command, commands are:\ntask-cli add <task name>\ntask-cli update <ID> <task name>\ntask-cli delete <task ID>\ntask-cli mark-in-progress <ID>\ntask-cli mark-done <ID>\ntask-cli list\nend'
 
     print('\nWelcome to cli task tracker....what would you like to do?')
 
     while (loop) :
 
         user_command = input("\nCommand: ")
+
         command_list = user_command.split(' ', 2)
         
         if command_list[0] == 'task-cli' :
-            continue
+            if command_list[1] in input_check :
+                if len(command_list) > 2 :
+                    x = command_list[2]
+                    input_check[command_list[1]](x)
+                else :
+                    input_check[command_list[1]]()
+            else :
+                print(input_error_message)
         elif command_list[0] == 'end' :
             end()
         else :
-            print("not a task-cli command, commands are:\n")
-            print('task-cli add <task name>\ntask-cli update <ID> <task name>\ntask-cli delete <task ID>\ntask-cli mark-in-progress <ID>\ntask-cli mark-done <ID>\ntask-cli list\nend')
+            print(input_error_message)
