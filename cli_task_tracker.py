@@ -8,6 +8,8 @@ import json
 #task_list = []
 formatted_timestamp = strftime("%c", localtime())
 data = ("")
+global loop
+loop = True
 
 #function to write the list of dictionaries to JSON file list_data.json
 def write_to_json(input_list) :
@@ -150,89 +152,40 @@ def change_status(task_id, status) :
 
 def end() :
     print('end of cli-task')
+    global loop
+    loop = False
 
 def format_task(string_to_be_formatted):
     task = string_to_be_formatted.replace('"', '')
     return task
 
 if __name__ == "__main__":
-        
-    acceptable_inputs = {
-        'task-cli add ' : add_to_list,
-        'task-cli update ' : update_list,
-        'task-cli delete ' : delete_from_list,
-        'task-cli mark-in-progress ' : change_status,
-        'task-cli mark-done ' :change_status,
-        'task-cli list' : print_task_list,
+    """
+    input_check1 = {
+        'task-cli' : ' ',
         'end' : end
+    }
+    """
+    input_check2 = {
+        'add ' : add_to_list,
+        'update ' : update_list,
+        'delete ' : delete_from_list,
+        'mark-in-progress ' : change_status,
+        'mark-done ' :change_status,
+        'list' : print_task_list,
     }
 
     print('\nWelcome to cli task tracker....what would you like to do?')
-    loop = True
 
     while (loop) :
 
         user_command = input("\nCommand: ")
-        command_list = user_command.split(' ')
+        command_list = user_command.split(' ', 2)
         
-        if command_list[0] in acceptable_inputs :
-            acceptable_inputs[command_list[0]]()        #working on this
+        if command_list[0] == 'task-cli' :
+            continue
+        elif command_list[0] == 'end' :
+            end()
         else :
             print("not a task-cli command, commands are:\n")
             print('task-cli add <task name>\ntask-cli update <ID> <task name>\ntask-cli delete <task ID>\ntask-cli mark-in-progress <ID>\ntask-cli mark-done <ID>\ntask-cli list\nend')
-                  
-        """
-        if selection == None:
-            print('not an acceptable input. try again')
-        """
-        """
-        if user_command in acceptable_inputs :
-            print("this is an acceptable_input")
-        else :
-            print("this isn't an acceptable input")
-        """
-        """
-        if command_list == [] :
-            print("not a task-cli command, commands are:\n")
-            print('task-cli add <task name>\ntask-cli delete <task ID>\nend')
-            pass
-        
-        elif command_list[0] == 'end' :
-            end()
-            break
-
-        elif command_list[0] != "task-cli" :
-            print("not a task-cli command, commands are:\n")
-            print('task-cli add <task name>\ntask-cli update ID <task name>
-            \ntask-cli delete <task ID>\ntask-cli mark-in-progress ID
-            \ntask-cli mark-done ID\ntask-cli list\nend')
-
-        elif command_list[1] == 'add' :
-            task = format_task(command_list[2])
-            add_to_list(task)
-
-        elif command_list[1] == 'delete' :
-            delete_from_list(command_list[2])
-
-        elif command_list[1] == 'update' :
-            print('updating JSON file')
-            update_list(command_list[2], format_task(command_list[3]))
-
-        elif command_list[1] == 'list' :
-            if len(command_list) == 2 :
-                print_task_list()
-            elif command_list[2] == 'done' :
-                print_by_status('done')
-            elif command_list[2] == 'in-progress' :
-                print_by_status('in-progress')
-
-        elif command_list[1] == 'mark-done' :
-            change_status(command_list[2], 'done')
-
-        elif command_list[1] == 'mark-in-progress' :
-            change_status(command_list[2], 'in-progress')
-
-        else :
-            print('incorrect input')
-            print('commands are: task-cli add <task name>\ntask-cli delete <task ID>\nend')
-        """
