@@ -160,12 +160,7 @@ def format_task(string_to_be_formatted):
     return task
 
 if __name__ == "__main__":
-    """
-    input_check1 = {
-        'task-cli' : ' ',
-        'end' : end
-    }
-    """
+
     input_check2 = {
         'add ' : add_to_list,
         'update ' : update_list,
