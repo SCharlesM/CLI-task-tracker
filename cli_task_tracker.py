@@ -81,19 +81,24 @@ def print_task_list():
 
 #a function to print the task by status
 #read the json file, iterate through dictionaries to find correct status and print
-def print_by_status(status_reference):
+def print_by_status(*status_reference):
 
+    #status_reference
+    stripped_reference = str(status_reference).strip("(,')")
     data = read_from_json()
 
     #access and process the retrieved JSON data
     i = 0
 
+    #if stripped_reference is empty string, print_task_list
+    #else print below...
+
     print("\nListing all tasks that are status: ", status_reference)
 
-    while i < len(data) :
+    while i < len(data) :       #change this while loop to 'for extract in data'
         extract = data[i]
 
-        if extract['status'] == status_reference :
+        if extract['status'] == stripped_reference :
             print(extract['id'], ". ", extract['description'], ", ", extract['status'], ", ", extract['createdAt'], ". ", extract['updatedAt'])
         i += 1
 
@@ -161,16 +166,16 @@ def format_task(string_to_be_formatted):
 
 if __name__ == "__main__":
 
-    input_check = {
+    valid_inputs = {
         'add' : add_to_list,
         'update' : update_list,
         'delete' : delete_from_list,
         'mark-in-progress' : change_status,
         'mark-done' :change_status,
-        'list' : print_by_status,
+        'list' : print_by_status ,
     }
     
-    input_error_message = 'not a task-cli command, commands are:\ntask-cli add <task name>\ntask-cli update <ID> <task name>\ntask-cli delete <task ID>\ntask-cli mark-in-progress <ID>\ntask-cli mark-done <ID>\ntask-cli list\nend'
+    input_error_message = 'not a task-cli command, commands are:\ntask-cli add <task name>\ntask-cli update <ID> <task name>\ntask-cli delete <task ID>\ntask-cli mark-in-progress <ID>\ntask-cli mark-done <ID>\ntask-cli list <todo/in-progress/done>\nend'
 
     print('\nWelcome to cli task tracker....what would you like to do?')
 
@@ -181,12 +186,12 @@ if __name__ == "__main__":
         command_list = user_command.split(' ', 2)
         
         if command_list[0] == 'task-cli' :
-            if command_list[1] in input_check :
+            if command_list[1] in valid_inputs :
                 if len(command_list) > 2 :
                     x = command_list[2]
-                    input_check[command_list[1]](x)
+                    valid_inputs[command_list[1]](x)
                 else :
-                    input_check[command_list[1]]()
+                    valid_inputs[command_list[1]]()
             else :
                 print(input_error_message)
         elif command_list[0] == 'end' :
