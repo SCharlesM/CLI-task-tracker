@@ -6,7 +6,7 @@ from time import strftime, gmtime, localtime
 import json
 
 #task_list = []
-formatted_timestamp = strftime("%c", localtime())       #shorten timestamp?
+formatted_timestamp = strftime("%X %x", localtime())       #shorten timestamp?
 data = ("")
 global loop
 loop = True
