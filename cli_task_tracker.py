@@ -6,7 +6,7 @@ from time import strftime, gmtime, localtime
 import json
 
 #task_list = []
-formatted_timestamp = strftime("%c", localtime())
+formatted_timestamp = strftime("%c", localtime())       #shorten timestamp?
 data = ("")
 global loop
 loop = True
@@ -83,25 +83,33 @@ def print_task_list():
 #read the json file, iterate through dictionaries to find correct status and print
 def print_by_status(*status_reference):
 
-    #status_reference
+    #retrieve the JSON data 
     stripped_reference = str(status_reference).strip("(,')")
     data = read_from_json()
 
-    #access and process the retrieved JSON data
-    i = 0
-
     #if stripped_reference is empty string, print_task_list
     #else print below...
-
-    print("\nListing all tasks that are status: ", status_reference)
-
+ 
+    if stripped_reference == '' :           #if empty string print all tasks
+        print("\nListing all tasks...")
+        print("\nTask ID, description, status, date and time created, date and time updated")
+        for extract in data :
+            print(extract['id'], ". ", extract['description'], ", ", extract['status'], ", ", extract['createdAt'], ". ", extract['updatedAt'])
+    elif stripped_reference == ('todo' or 'in progress' or 'done') :
+        print("\nListing all tasks that are status: ", stripped_reference)
+        for extract in data :
+            if extract['status'] == stripped_reference :
+                print(extract['id'], ". ", extract['description'], ", ", extract['status'], ", ", extract['createdAt'], ". ", extract['updatedAt'])
+    else :
+        print("this is not a valid input, input can be 'todo' 'in progress' or 'done'")
+"""
     while i < len(data) :       #change this while loop to 'for extract in data'
         extract = data[i]
 
         if extract['status'] == stripped_reference :
             print(extract['id'], ". ", extract['description'], ", ", extract['status'], ", ", extract['createdAt'], ". ", extract['updatedAt'])
         i += 1
-
+"""
 def update_list(task_id, new_description):
     
     print('\nupdating task', task_id)
