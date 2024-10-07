@@ -6,7 +6,7 @@ from time import strftime, gmtime, localtime
 import json
 
 #task_list = []
-formatted_timestamp = strftime("%X %x", localtime())       #shorten timestamp?
+formatted_timestamp = strftime("%X %x", localtime())
 data = ("")
 global loop
 loop = True
@@ -43,7 +43,7 @@ def add_to_list(task):
 
     max_id = 0
     next_id = 1
-    task_list = []
+    task_list = []              #remove?
 
     #A function to read the data from the JSON file. If the JSON file is empty append the data with
     # index 1 and write. If the file exists, find the biggest ID and append the data with the next ID/index
@@ -115,12 +115,9 @@ def delete_from_list(task_id) :
     print('\ndeleting task', task_id, 'from task list')
     data = read_from_json()
 
-    x = 0
-    while x < len(data) :                   #remove while loop
-        extract = data[x]
-        if extract['id'] == int(task_id) :
-            data.pop(x)
-        x += 1
+    for x in data :
+        if x['id'] == int(task_id) :
+            data.pop()
 
     write_to_json(data)
 

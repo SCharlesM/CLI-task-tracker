@@ -26,12 +26,5 @@
     "status": "in-progress",
     "createdAt": "14:51:54 10/07/24",
     "updatedAt": "14:51:54 10/07/24"
-  },
-  {
-    "id": 7,
-    "description": "\"re-write the main loop with dictionary\"",
-    "status": "todo",
-    "createdAt": "21:55:43 10/07/24",
-    "updatedAt": "21:55:43 10/07/24"
   }
 ]
