@@ -45,8 +45,9 @@ def add_to_list(task):
     next_id = 1
     task_list = []
 
-    #read the data from the JSON file, if its empty append the data with index 1 and write to JSON,
-    # if the file exists, find the biggest ID and append the data with the next ID/index
+    #A function to read the data from the JSON file. If the JSON file is empty append the data with
+    # index 1 and write. If the file exists, find the biggest ID and append the data with the next ID/index
+    #and write it all back to the JSON file
     data = read_from_json()
     if data == None :
         pass
@@ -55,14 +56,11 @@ def add_to_list(task):
             max_id = i['id']
 
         next_id = max_id + 1
-        #task_dictionary = dict(id = next_id, description = task, status = 'todo', createdAt = formatted_timestamp, updatedAt = formatted_timestamp)
-        #data.append(task_dictionary)
 
     task_dictionary = dict(id = next_id, description = task, status = 'todo', createdAt = formatted_timestamp, updatedAt = formatted_timestamp)
     data.append(task_dictionary)
     write_to_json(data)
     print('Task added successfully (ID: ', next_id, ')')
-
 
 #a function to print the task by status
 #read the json file, iterate through dictionaries to find correct status and print
@@ -168,7 +166,6 @@ if __name__ == "__main__":
     while (loop) :
 
         user_command = input("\nCommand: ")
-
         command_list = user_command.split(' ', 2)
         
         if command_list[0] == 'task-cli' :
