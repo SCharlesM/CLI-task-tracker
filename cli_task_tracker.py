@@ -67,6 +67,8 @@ def add_to_list(task):
 # *calling this causes error if the list is empty..
 def print_by_status(*status_reference):
 
+    valid_status = ('todo', 'done', 'in-progress')
+
     #retrieve the JSON data 
     stripped_reference = str(status_reference).strip("(,')")
     data = read_from_json()
@@ -77,13 +79,14 @@ def print_by_status(*status_reference):
         for extract in data :
             print(extract['id'], ". ", extract['description'], ", ", extract['status'], ", ", extract['createdAt'], ". ", extract['updatedAt'])
 
-    elif stripped_reference == ('todo' or 'in progress' or 'done') :
+    elif stripped_reference in valid_status :
         print("\nListing all tasks that are status: ", stripped_reference)
         for extract in data :
             if extract['status'] == stripped_reference :
                 print(extract['id'], ". ", extract['description'], ", ", extract['status'], ", ", extract['createdAt'], ". ", extract['updatedAt'])
     else :
-        print("this is not a valid input, input can be 'todo' 'in progress' or 'done'")
+        print("this is not a valid input, input should be 'todo', 'in-progress' or 'done'")
+        #need to print...'there are no tasks marked 'done' or 'in-progress' etc
 
 
 def update_list(task_id, new_description):
@@ -93,7 +96,7 @@ def update_list(task_id, new_description):
     data = read_from_json()
     
     i = 0 
-    while i < len(data) :
+    while i < len(data) :               #remove while loop
         extract = data[i]
         if extract['id'] == int(task_id) :
             extract['description'] = new_description
@@ -109,11 +112,11 @@ def update_list(task_id, new_description):
 # then pop() from the list 
 def delete_from_list(task_id) :
 
-    print('\ndeleting task', task_id, 'from list')
+    print('\ndeleting task', task_id, 'from task list')
     data = read_from_json()
 
     x = 0
-    while x < len(data) :
+    while x < len(data) :                   #remove while loop
         extract = data[x]
         if extract['id'] == int(task_id) :
             data.pop(x)
@@ -131,7 +134,7 @@ def change_status(task_id, status) :
     data = read_from_json()
 
     x = 0
-    while x < len(data) :
+    while x < len(data) :                   #remove while loop
         extract = data[x]
         if extract['id'] == int(task_id) :
             extract['status'] = status
@@ -169,32 +172,40 @@ if __name__ == "__main__":
         split_input_list = user_command.split(' ', 2)
 
         if split_input_list[0] == 'task-cli' :
+
             if split_input_list[1] in valid_inputs :
+
                 if split_input_list[1] == 'update' :
-                    new_split = split_input_list.split(' ')
-                    
-                
-                if len(split_input_list) > 2 :
+                    x, y = split_input_list[2].split(' ', 1)
+                    update_list(x,y)            #need to remove '"' from the new description
+
+                elif split_input_list[1] == 'list' :
+                    if len(split_input_list) > 2 :
+                        x = split_input_list[2]
+                        valid_inputs[split_input_list[1]](x)
+                    else :
+                        valid_inputs[split_input_list[1]]()
+
+                elif split_input_list[1] == 'delete' :
+                    x = split_input_list[2]
+                    delete_from_list(x)
+
+                elif split_input_list[1] == 'mark-in-progress' :
+                    id = split_input_list[2]
+                    change_status(id, 'in-progress')
+
+                elif split_input_list[1] == 'mark-done' :    
+                    id = split_input_list[2]
+                    change_status(id, 'done')
+
+                elif split_input_list[1] == 'add' :
                     x = split_input_list[2]
                     valid_inputs[split_input_list[1]](x)
                 else :
-                    valid_inputs[split_input_list[1]]()
+                    print('not in valid_inputs')
             else :
                 print(input_error_message)
         elif split_input_list[0] == 'end' :
             end()
         else :
             print(input_error_message)
-
-        """
-        for input in split_input_list :
-            if input == end :
-                end()
-            elif input == 'task-cli' :
-                continue
-            elif input in valid_inputs :
-                valid_inputs[split_input_list[input+1]](input+1)
-            else :
-                print(input_error_message)
-                #valid_inputs[split_input_list[input]](input)
-        """
