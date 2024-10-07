@@ -42,34 +42,31 @@ make a dictionary, add the next ID, task description, status, createdAt and upda
 def add_to_list(task):
 
     max_id = 0
-    current_id = 1
+    next_id = 1
     task_list = []
 
+    #read the data from the JSON file, if its empty append the data with index 1 and write to JSON,
+    # if the file exists, find the biggest ID and append the data with the next ID/index
     data = read_from_json()
-
-    #read the data from the JSON file, find the biggest ID
-    #if the file is empty start with ID 1
     if data == None :
-        task_dictionary = dict(id = 1, description = task, status = 'todo', createdAt = formatted_timestamp, updatedAt = formatted_timestamp)
-        task_list.append(task_dictionary)
-        write_to_json(task_list)
+        pass
     else :
-        i = 0 
-        while i <len(data) :    #len() may be wrong when id's get deleted
-            extract = data[i]
-            max_id = extract['id']
-            i += 1
-    
-        current_id = max_id + 1
-        task_dictionary = dict(id = current_id, description = task, status = 'todo', createdAt = formatted_timestamp, updatedAt = formatted_timestamp)
-        data.append(task_dictionary)
+        for i in data :
+            max_id = i['id']
 
+        next_id = max_id + 1
+        #task_dictionary = dict(id = next_id, description = task, status = 'todo', createdAt = formatted_timestamp, updatedAt = formatted_timestamp)
+        #data.append(task_dictionary)
+
+    task_dictionary = dict(id = next_id, description = task, status = 'todo', createdAt = formatted_timestamp, updatedAt = formatted_timestamp)
+    data.append(task_dictionary)
     write_to_json(data)
-    print('Task added successfully (ID: ', current_id, ')')
+    print('Task added successfully (ID: ', next_id, ')')
 
 
 #a function to print the task by status
 #read the json file, iterate through dictionaries to find correct status and print
+# *calling this causes error if the list is empty..
 def print_by_status(*status_reference):
 
     #retrieve the JSON data 
