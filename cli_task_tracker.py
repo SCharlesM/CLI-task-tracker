@@ -159,25 +159,42 @@ if __name__ == "__main__":
         'list' : print_by_status ,
     }
     
-    input_error_message = 'not a task-cli command, commands are:\ntask-cli add <task name>\ntask-cli update <ID> <task name>\ntask-cli delete <task ID>\ntask-cli mark-in-progress <ID>\ntask-cli mark-done <ID>\ntask-cli list <todo/in-progress/done>\nend'
+    input_error_message = '\nNot a valid task-cli command, commands are:\ntask-cli add <task name>\ntask-cli update <ID> <task name>\ntask-cli delete <task ID>\ntask-cli mark-in-progress <ID>\ntask-cli mark-done <ID>\ntask-cli list <todo/in-progress/done>\nend'
 
     print('\nWelcome to cli task tracker....what would you like to do?')
 
     while (loop) :
 
         user_command = input("\nCommand: ")
-        command_list = user_command.split(' ', 2)
-        
-        if command_list[0] == 'task-cli' :
-            if command_list[1] in valid_inputs :
-                if len(command_list) > 2 :
-                    x = command_list[2]
-                    valid_inputs[command_list[1]](x)
+        split_input_list = user_command.split(' ', 2)
+
+        if split_input_list[0] == 'task-cli' :
+            if split_input_list[1] in valid_inputs :
+                if split_input_list[1] == 'update' :
+                    new_split = split_input_list.split(' ')
+                    
+                
+                if len(split_input_list) > 2 :
+                    x = split_input_list[2]
+                    valid_inputs[split_input_list[1]](x)
                 else :
-                    valid_inputs[command_list[1]]()
+                    valid_inputs[split_input_list[1]]()
             else :
                 print(input_error_message)
-        elif command_list[0] == 'end' :
+        elif split_input_list[0] == 'end' :
             end()
         else :
             print(input_error_message)
+
+        """
+        for input in split_input_list :
+            if input == end :
+                end()
+            elif input == 'task-cli' :
+                continue
+            elif input in valid_inputs :
+                valid_inputs[split_input_list[input+1]](input+1)
+            else :
+                print(input_error_message)
+                #valid_inputs[split_input_list[input]](input)
+        """
