@@ -100,6 +100,7 @@ def update_list(task_id, new_description):
         extract = data[i]
         if extract['id'] == int(task_id) :
             extract['description'] = new_description
+            formatted_timestamp = strftime("%X %x", localtime())
             extract['updatedAt'] = formatted_timestamp #does this timestamp need to change?
             data[i] = extract
         
@@ -159,7 +160,7 @@ if __name__ == "__main__":
         'list' : print_by_status ,
     }
     
-    input_error_message = '\nNot a valid task-cli command, commands are:\ntask-cli add <task name>\ntask-cli update <ID> <task name>\ntask-cli delete <task ID>\ntask-cli mark-in-progress <ID>\ntask-cli mark-done <ID>\ntask-cli list <todo/in-progress/done>\nend'
+    input_error_message = '\nNot a valid task-cli command, commands are:\n\ntask-cli add <task name>\ntask-cli update <ID> <task name>\ntask-cli delete <task ID>\ntask-cli mark-in-progress <ID>\ntask-cli mark-done <ID>\ntask-cli list <todo/in-progress/done>\nend'
 
     print('\nWelcome to cli task tracker....what would you like to do?')
 
