@@ -1,13 +1,20 @@
-#cli_tasker_tracker.py
-#from the roadmap.sh project suggestions page
-#
-#from datetime import datetime
+"""
+cli_tasker_tracker.py
+
+A project idea from roadmap.sh project suggestions page
+
+A simple program to manage tasks, functionality to add, delete, update and change status of tasks
+
+***commands to finish***
+task-cli list in-progress
+"""
+
 from time import strftime, gmtime, localtime
 import json
 
-#task_list = []
-formatted_timestamp = strftime("%c", localtime())
-data = ("")
+#data = ("")
+global loop
+loop = True
 
 #function to write the list of dictionaries to JSON file list_data.json
 def write_to_json(input_list) :
@@ -40,60 +47,53 @@ make a dictionary, add the next ID, task description, status, createdAt and upda
 def add_to_list(task):
 
     max_id = 0
-    current_id = 1
-    task_list = []
+    next_id = 1
+    task_list = []              #remove?
 
+    #A function to read the data from the JSON file. If the JSON file is empty append the data with
+    # index 1 and write. If the file exists, find the biggest ID and append the data with the next ID/index
+    #and write it all back to the JSON file
     data = read_from_json()
-
-    #read the data from the JSON file, find the biggest ID
-    #if the file is empty start with ID 1
     if data == None :
-        task_dictionary = dict(id = 1, description = task, status = 'todo', createdAt = formatted_timestamp, updatedAt = formatted_timestamp)
-        task_list.append(task_dictionary)
-        write_to_json(task_list)
+        pass
     else :
-        i = 0 
-        while i <len(data) :    #len() may be wrong when id's get deleted
-            extract = data[i]
-            max_id = extract['id']
-            i += 1
-    
-        current_id = max_id + 1
-        task_dictionary = dict(id = current_id, description = task, status = 'todo', createdAt = formatted_timestamp, updatedAt = formatted_timestamp)
-        data.append(task_dictionary)
+        for i in data :
+            max_id = i['id']
 
+        next_id = max_id + 1
+
+    formatted_timestamp = strftime("%X %x", localtime())
+    task_dictionary = dict(id = next_id, description = task, status = 'todo', createdAt = formatted_timestamp, updatedAt = formatted_timestamp)
+    data.append(task_dictionary)
     write_to_json(data)
-    print('Task added successfully (ID: ', current_id, ')')
-
-def print_task_list():
-
-    data = read_from_json()
-
-    print("\nTask ID, description, status, date and time created, date and time updated")
-    
-    i = 0
-    while i < len(data) :
-        extract = data[i]
-        print(extract['id'], ". ", extract['description'], ", ", extract['status'], ", ", extract['createdAt'], ". ", extract['updatedAt'])
-        i += 1
+    print('Task added successfully (ID: ', next_id, ')')
 
 #a function to print the task by status
 #read the json file, iterate through dictionaries to find correct status and print
-def print_by_status(status_reference):
+# *calling this causes error if the list is empty..
+def print_by_status(*status_reference):
 
+    valid_status = ('todo', 'done', 'in-progress')
+
+    #retrieve the JSON data 
+    stripped_reference = str(status_reference).strip("(,')")
     data = read_from_json()
-
-    #access and process the retrieved JSON data
-    i = 0
-
-    print("\nListing all tasks that are status: ", status_reference)
-
-    while i < len(data) :
-        extract = data[i]
-
-        if extract['status'] == status_reference :
+ 
+    if stripped_reference == '' :           #if empty string print all tasks
+        print("\nListing all tasks...")
+        print("\nTask ID, description, status, date and time created, date and time updated")
+        for extract in data :
             print(extract['id'], ". ", extract['description'], ", ", extract['status'], ", ", extract['createdAt'], ". ", extract['updatedAt'])
-        i += 1
+
+    elif stripped_reference in valid_status :
+        print("\nListing all tasks that are status: ", stripped_reference)
+        for extract in data :
+            if extract['status'] == stripped_reference :
+                print(extract['id'], ". ", extract['description'], ", ", extract['status'], ", ", extract['createdAt'], ". ", extract['updatedAt'])
+    else :
+        print("this is not a valid input, input should be 'todo', 'in-progress' or 'done'")
+        #need to print...'there are no tasks marked 'done' or 'in-progress' etc
+
 
 def update_list(task_id, new_description):
     
@@ -102,10 +102,11 @@ def update_list(task_id, new_description):
     data = read_from_json()
     
     i = 0 
-    while i < len(data) :
+    while i < len(data) :               #remove while loop
         extract = data[i]
         if extract['id'] == int(task_id) :
             extract['description'] = new_description
+            formatted_timestamp = strftime("%X %x", localtime())
             extract['updatedAt'] = formatted_timestamp #does this timestamp need to change?
             data[i] = extract
         
@@ -118,15 +119,12 @@ def update_list(task_id, new_description):
 # then pop() from the list 
 def delete_from_list(task_id) :
 
-    print('\ndeleting task', task_id, 'from list')
+    print('\ndeleting task', task_id, 'from task list')
     data = read_from_json()
 
-    x = 0
-    while x < len(data) :
-        extract = data[x]
-        if extract['id'] == int(task_id) :
-            data.pop(x)
-        x += 1
+    for x in data :
+        if x['id'] == int(task_id) :
+            data.pop()
 
     write_to_json(data)
 
@@ -140,7 +138,7 @@ def change_status(task_id, status) :
     data = read_from_json()
 
     x = 0
-    while x < len(data) :
+    while x < len(data) :                   #remove while loop
         extract = data[x]
         if extract['id'] == int(task_id) :
             extract['status'] = status
@@ -150,91 +148,68 @@ def change_status(task_id, status) :
 
 def end() :
     print('end of cli-task')
+    global loop
+    loop = False
 
 def format_task(string_to_be_formatted):
     task = string_to_be_formatted.replace('"', '')
     return task
 
 if __name__ == "__main__":
-        
-    acceptable_inputs = {
 
-        'task-cli' : ' '
+    valid_inputs = {
         'add' : add_to_list,
-        'update ' : update_list,
-        'delete ' : delete_from_list,
-        'mark-in-progress ' : change_status,
-        'mark-done ' :change_status,
-        'list' : print_task_list,
-        'end' : end
+        'update' : update_list,
+        'delete' : delete_from_list,
+        'mark-in-progress' : change_status,
+        'mark-done' :change_status,
+        'list' : print_by_status ,
     }
+    
+    input_error_message = '\nNot a valid task-cli command, commands are:\n\ntask-cli add <task name>\ntask-cli update <ID> <task name>\ntask-cli delete <task ID>\ntask-cli mark-in-progress <ID>\ntask-cli mark-done <ID>\ntask-cli list <todo/in-progress/done>\nend'
 
     print('\nWelcome to cli task tracker....what would you like to do?')
-    loop = True
 
     while (loop) :
 
         user_command = input("\nCommand: ")
-        command_list = user_command.split(' ')
-        
-        if command_list[0] in acceptable_inputs :
-            acceptable_inputs[command_list[0]]()        #working on this
-        else :
-            print("not a task-cli command, commands are:\n")
-            print('task-cli add <task name>\ntask-cli update <ID> <task name>\ntask-cli delete <task ID>\ntask-cli mark-in-progress <ID>\ntask-cli mark-done <ID>\ntask-cli list\nend')
-                  
-        """
-        if selection == None:
-            print('not an acceptable input. try again')
-        """
-        """
-        if user_command in acceptable_inputs :
-            print("this is an acceptable_input")
-        else :
-            print("this isn't an acceptable input")
-        """
-        """
-        if command_list == [] :
-            print("not a task-cli command, commands are:\n")
-            print('task-cli add <task name>\ntask-cli delete <task ID>\nend')
-            pass
-        
-        elif command_list[0] == 'end' :
+        split_input_list = user_command.split(' ', 2)
+
+        if split_input_list[0] == 'task-cli' :
+
+            if split_input_list[1] in valid_inputs :
+
+                if split_input_list[1] == 'update' :
+                    x, y = split_input_list[2].split(' ', 1)
+                    update_list(x,y)            #need to remove '"' from the new description
+
+                elif split_input_list[1] == 'list' :
+                    if len(split_input_list) > 2 :
+                        x = split_input_list[2]
+                        valid_inputs[split_input_list[1]](x)
+                    else :
+                        valid_inputs[split_input_list[1]]()
+
+                elif split_input_list[1] == 'delete' :
+                    x = split_input_list[2]
+                    delete_from_list(x)
+
+                elif split_input_list[1] == 'mark-in-progress' :
+                    id = split_input_list[2]
+                    change_status(id, 'in-progress')
+
+                elif split_input_list[1] == 'mark-done' :    
+                    id = split_input_list[2]
+                    change_status(id, 'done')
+
+                elif split_input_list[1] == 'add' :
+                    x = split_input_list[2]
+                    valid_inputs[split_input_list[1]](x)
+                else :
+                    print('not in valid_inputs')
+            else :
+                print(input_error_message)
+        elif split_input_list[0] == 'end' :
             end()
-            break
-
-        elif command_list[0] != "task-cli" :
-            print("not a task-cli command, commands are:\n")
-            print('task-cli add <task name>\ntask-cli update ID <task name>
-            \ntask-cli delete <task ID>\ntask-cli mark-in-progress ID
-            \ntask-cli mark-done ID\ntask-cli list\nend')
-
-        elif command_list[1] == 'add' :
-            task = format_task(command_list[2])
-            add_to_list(task)
-
-        elif command_list[1] == 'delete' :
-            delete_from_list(command_list[2])
-
-        elif command_list[1] == 'update' :
-            print('updating JSON file')
-            update_list(command_list[2], format_task(command_list[3]))
-
-        elif command_list[1] == 'list' :
-            if len(command_list) == 2 :
-                print_task_list()
-            elif command_list[2] == 'done' :
-                print_by_status('done')
-            elif command_list[2] == 'in-progress' :
-                print_by_status('in-progress')
-
-        elif command_list[1] == 'mark-done' :
-            change_status(command_list[2], 'done')
-
-        elif command_list[1] == 'mark-in-progress' :
-            change_status(command_list[2], 'in-progress')
-
         else :
-            print('incorrect input')
-            print('commands are: task-cli add <task name>\ntask-cli delete <task ID>\nend')
-        """
+            print(input_error_message)
