@@ -1,13 +1,18 @@
-#cli_tasker_tracker.py
-#from the roadmap.sh project suggestions page
-#
-#from datetime import datetime
+"""
+cli_tasker_tracker.py
+
+A project idea from roadmap.sh project suggestions page
+
+A simple program to manage tasks, functionality to add, delete, update and change status of tasks
+
+***commands to finish***
+task-cli list in-progress
+"""
+
 from time import strftime, gmtime, localtime
 import json
 
-#task_list = []
-formatted_timestamp = strftime("%X %x", localtime())
-data = ("")
+#data = ("")
 global loop
 loop = True
 
@@ -57,6 +62,7 @@ def add_to_list(task):
 
         next_id = max_id + 1
 
+    formatted_timestamp = strftime("%X %x", localtime())
     task_dictionary = dict(id = next_id, description = task, status = 'todo', createdAt = formatted_timestamp, updatedAt = formatted_timestamp)
     data.append(task_dictionary)
     write_to_json(data)
