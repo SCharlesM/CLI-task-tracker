@@ -5,103 +5,90 @@ A project idea from roadmap.sh project suggestions page
 
 A simple program to manage tasks, functionality to add, delete, update and change status of tasks
 
-***commands to finish***
-task-cli list in-progress
 """
-
-from time import strftime, gmtime, localtime
+from time import strftime, localtime
 import json
 
-#data = ("")
-global loop
-loop = True
+LOOP = True
 
-#function to write the list of dictionaries to JSON file list_data.json
 def write_to_json(input_list) :
-    
-    #open an file and write the new_list to the file
-    with open("list_data.json", "w") as output_file:
+    """function to append the list of dictionaries to JSON file list_data.json"""
+
+    with open("list_data.json", "w", encoding="utf-8") as output_file:
         json.dump(input_list, output_file, indent = 2)
 
-#function to read a list of dictionaries from JSON file list_data.json
+
 def read_from_json() :
+    """function to return the list of dictionaries from list_data.json"""
 
     output_list = []
-    
-    #open a file and read the contents into 'output_list
-    with open('list_data.json', 'r') as openfile:
+    with open('list_data.json', 'r', encoding="utf-8") as openfile:
         try:
             output_list = json.load(openfile)
         except  json.decoder.JSONDecodeError:
             print ('this is JSON decode error, is the JSON file empty?')
 
     if output_list == [] :
-        pass
-    else :
-        return(output_list)
+        return None
+    return output_list
 
-"""
-add_to_list - a function to make add a task to list
-make a dictionary, add the next ID, task description, status, createdAt and updatedAt
-"""
+
 def add_to_list(task):
-
+    """function to generate a dictionary with id, desc, status, and timestamps"""
     max_id = 0
     next_id = 1
-    task_list = []              #remove?
 
-    #A function to read the data from the JSON file. If the JSON file is empty append the data with
-    # index 1 and write. If the file exists, find the biggest ID and append the data with the next ID/index
-    #and write it all back to the JSON file
+    #if the JSON file is empty, id = 1. Otherwise find the biggest id and + 1
     data = read_from_json()
-    if data == None :
-        pass
+    if data is None :
+        data = []
     else :
         for i in data :
             max_id = i['id']
-
         next_id = max_id + 1
 
     formatted_timestamp = strftime("%X %x", localtime())
-    task_dictionary = dict(id = next_id, description = task, status = 'todo', createdAt = formatted_timestamp, updatedAt = formatted_timestamp)
+    task = task.replace('"', '')
+    task_dictionary = {
+        'id' : next_id,
+        'description' : task,
+        'status' : 'todo',
+        'created_at' : formatted_timestamp,
+        'updated_at' : formatted_timestamp
+    }
     data.append(task_dictionary)
     write_to_json(data)
     print('Task added successfully (ID: ', next_id, ')')
 
-#a function to print the task by status
-#read the json file, iterate through dictionaries to find correct status and print
-# *calling this causes error if the list is empty..
 def print_by_status(*status_reference):
+    """function to print all the tasks with no arguments, or the status if given as an argument"""
 
     valid_status = ('todo', 'done', 'in-progress')
-
-    #retrieve the JSON data 
     stripped_reference = str(status_reference).strip("(,')")
     data = read_from_json()
- 
+
     if stripped_reference == '' :           #if empty string print all tasks
         print("\nListing all tasks...")
         print("\nTask ID, description, status, date and time created, date and time updated")
         for extract in data :
-            print(extract['id'], ". ", extract['description'], ", ", extract['status'], ", ", extract['createdAt'], ". ", extract['updatedAt'])
+            print(extract['id'], ". ", extract['description'], ", ", extract['status'], ", ", extract['created_at'], ". ", extract['updated_at'])
 
     elif stripped_reference in valid_status :
         print("\nListing all tasks that are status: ", stripped_reference)
         for extract in data :
             if extract['status'] == stripped_reference :
-                print(extract['id'], ". ", extract['description'], ", ", extract['status'], ", ", extract['createdAt'], ". ", extract['updatedAt'])
+                print(extract['id'], ". ", extract['description'], ", ", extract['status'], ", ", extract['created_at'], ". ", extract['updated_at'])
     else :
         print("this is not a valid input, input should be 'todo', 'in-progress' or 'done'")
         #need to print...'there are no tasks marked 'done' or 'in-progress' etc
 
 
 def update_list(task_id, new_description):
-    
+    """function to change the description with the a given id"""
     print('\nupdating task', task_id)
-    #read the JSON file, iterate through the IDs, change the description
     data = read_from_json()
     
-    i = 0 
+    i = 0
     while i < len(data) :               #remove while loop
         extract = data[i]
         if extract['id'] == int(task_id) :
@@ -109,49 +96,45 @@ def update_list(task_id, new_description):
             formatted_timestamp = strftime("%X %x", localtime())
             extract['updatedAt'] = formatted_timestamp #does this timestamp need to change?
             data[i] = extract
-        
-        i += 1    
+        i += 1
 
     write_to_json(data)
 
-#a function to remove a task. in practice, it removes a dictionary from a list.
-# read the json file, iterate through the ids to find the task/dictionary to delete,
-# then pop() from the list 
 def delete_from_list(task_id) :
-
+    """function to remove the dictionary from the list with given id"""
     print('\ndeleting task', task_id, 'from task list')
     data = read_from_json()
 
-    for x in data :
-        if x['id'] == int(task_id) :
+    for item in data :
+        if item['id'] == int(task_id) :
             data.pop()
-
     write_to_json(data)
 
-#a function to change the status of the task
-#read the json file, find the id and change the status
-# I need to add a check for the correct status' <todo, in progress, done>
-def change_status(task_id, status) :
 
+def change_status(task_id, status) :
+    """function to change the status of the task from 'todo' to 'in-progress' or 'done'"""
     print('\nchanging status of task', task_id)
 
     data = read_from_json()
 
-    x = 0
-    while x < len(data) :                   #remove while loop
-        extract = data[x]
+    index = 0
+    while index < len(data) :                   #remove while loop
+        extract = data[index]
         if extract['id'] == int(task_id) :
             extract['status'] = status
-        x += 1
-    
+        index += 1
+
     write_to_json(data)
 
 def end() :
+    """function to end the program by making the loop False"""
+
     print('end of cli-task')
-    global loop
-    loop = False
+    global LOOP
+    LOOP = False
 
 def format_task(string_to_be_formatted):
+    """function to remove speech marks"""
     task = string_to_be_formatted.replace('"', '')
     return task
 
@@ -170,7 +153,7 @@ if __name__ == "__main__":
 
     print('\nWelcome to cli task tracker....what would you like to do?')
 
-    while (loop) :
+    while (LOOP) :
 
         user_command = input("\nCommand: ")
         split_input_list = user_command.split(' ', 2)
@@ -181,6 +164,7 @@ if __name__ == "__main__":
 
                 if split_input_list[1] == 'update' :
                     x, y = split_input_list[2].split(' ', 1)
+                    y = y.replace('"', '')
                     update_list(x,y)            #need to remove '"' from the new description
 
                 elif split_input_list[1] == 'list' :
@@ -195,12 +179,12 @@ if __name__ == "__main__":
                     delete_from_list(x)
 
                 elif split_input_list[1] == 'mark-in-progress' :
-                    id = split_input_list[2]
-                    change_status(id, 'in-progress')
+                    index = split_input_list[2]
+                    change_status(index, 'in-progress')
 
-                elif split_input_list[1] == 'mark-done' :    
-                    id = split_input_list[2]
-                    change_status(id, 'done')
+                elif split_input_list[1] == 'mark-done' :
+                    index = split_input_list[2]
+                    change_status(index, 'done')
 
                 elif split_input_list[1] == 'add' :
                     x = split_input_list[2]
