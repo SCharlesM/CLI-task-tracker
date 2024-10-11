@@ -6,11 +6,9 @@ A project idea from roadmap.sh project suggestions page
 A simple program to manage tasks, functionality to add, delete, update and change status of tasks
 
 """
-
 from time import strftime, localtime
 import json
 
-#global loop
 LOOP = True
 
 def write_to_json(input_list) :
@@ -22,6 +20,7 @@ def write_to_json(input_list) :
 
 def read_from_json() :
     """function to return the list of dictionaries from list_data.json"""
+
     output_list = []
     with open('list_data.json', 'r', encoding="utf-8") as openfile:
         try:
@@ -42,15 +41,14 @@ def add_to_list(task):
     #if the JSON file is empty, id = 1. Otherwise find the biggest id and + 1
     data = read_from_json()
     if data is None :
-        pass
+        data = []
     else :
         for i in data :
             max_id = i['id']
-
         next_id = max_id + 1
 
     formatted_timestamp = strftime("%X %x", localtime())
-    #ask_dictionary = dict(id = next_id, description = task, status = 'todo', createdAt = formatted_timestamp, updatedAt = formatted_timestamp)
+    task = task.replace('"', '')
     task_dictionary = {
         'id' : next_id,
         'description' : task,
@@ -64,6 +62,7 @@ def add_to_list(task):
 
 def print_by_status(*status_reference):
     """function to print all the tasks with no arguments, or the status if given as an argument"""
+    
     valid_status = ('todo', 'done', 'in-progress')
     stripped_reference = str(status_reference).strip("(,')")
     data = read_from_json()
@@ -129,6 +128,7 @@ def change_status(task_id, status) :
 
 def end() :
     """function to end the program by making the loop False"""
+
     print('end of cli-task')
     global LOOP
     LOOP = False
@@ -164,6 +164,7 @@ if __name__ == "__main__":
 
                 if split_input_list[1] == 'update' :
                     x, y = split_input_list[2].split(' ', 1)
+                    y = y.replace('"', '')
                     update_list(x,y)            #need to remove '"' from the new description
 
                 elif split_input_list[1] == 'list' :
@@ -178,12 +179,12 @@ if __name__ == "__main__":
                     delete_from_list(x)
 
                 elif split_input_list[1] == 'mark-in-progress' :
-                    id = split_input_list[2]
-                    change_status(id, 'in-progress')
+                    index = split_input_list[2]
+                    change_status(index, 'in-progress')
 
-                elif split_input_list[1] == 'mark-done' :    
-                    id = split_input_list[2]
-                    change_status(id, 'done')
+                elif split_input_list[1] == 'marsk-done' :
+                    index = split_input_list[2]
+                    change_status(index, 'done')
 
                 elif split_input_list[1] == 'add' :
                     x = split_input_list[2]
