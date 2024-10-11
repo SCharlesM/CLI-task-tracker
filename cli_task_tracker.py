@@ -119,7 +119,6 @@ def change_status(task_id, status) :
     for entry in data :
         if entry['id'] is int(task_id) :
             entry['status'] = status
-            #formatted_timestamp = strftime("%X %x", localtime())
             entry['updated_at'] = strftime("%X %x", localtime())
     write_to_json(data)
 
