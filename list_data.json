@@ -2,7 +2,7 @@
   {
     "id": 1,
     "description": "change the title again",
-    "status": "todo",
+    "status": "done",
     "created_at": "21:49:41 10/11/24",
     "updated_at": "21:49:41 10/11/24",
     "updatedAt": "21:58:50 10/11/24"
@@ -13,5 +13,12 @@
     "status": "todo",
     "created_at": "21:56:58 10/11/24",
     "updated_at": "21:56:58 10/11/24"
+  },
+  {
+    "id": 3,
+    "description": "\"add a third task\"",
+    "status": "todo",
+    "created_at": "22:05:14 10/11/24",
+    "updated_at": "22:05:14 10/11/24"
   }
 ]

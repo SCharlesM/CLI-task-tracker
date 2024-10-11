@@ -62,7 +62,7 @@ def add_to_list(task):
 
 def print_by_status(*status_reference):
     """function to print all the tasks with no arguments, or the status if given as an argument"""
-    
+
     valid_status = ('todo', 'done', 'in-progress')
     stripped_reference = str(status_reference).strip("(,')")
     data = read_from_json()
@@ -182,7 +182,7 @@ if __name__ == "__main__":
                     index = split_input_list[2]
                     change_status(index, 'in-progress')
 
-                elif split_input_list[1] == 'marsk-done' :
+                elif split_input_list[1] == 'mark-done' :
                     index = split_input_list[2]
                     change_status(index, 'done')
 
