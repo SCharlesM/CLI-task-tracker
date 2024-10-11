@@ -113,17 +113,13 @@ def delete_from_list(task_id) :
 
 def change_status(task_id, status) :
     """function to change the status of the task from 'todo' to 'in-progress' or 'done'"""
+
     print('\nchanging status of task', task_id)
-
     data = read_from_json()
-
-    index = 0
-    while index < len(data) :                   #remove while loop
-        extract = data[index]
-        if extract['id'] == int(task_id) :
-            extract['status'] = status
-        index += 1
-
+    for entry in data :
+        if entry['id'] is int(task_id) :
+            entry['status'] = status
+            entry['updated_at'] = strftime("%X %x", localtime())
     write_to_json(data)
 
 def end() :
