@@ -9,7 +9,7 @@ A simple program to manage tasks, functionality to add, delete, update and chang
 from time import strftime, localtime
 import json
 
-LOOP = True
+Loop = True
 
 def write_to_json(input_list) :
     """function to append the list of dictionaries to JSON file list_data.json"""
@@ -61,7 +61,7 @@ def add_to_list(task):
     print('Task added successfully (ID: ', next_id, ')')
 
 def print_by_status(*status_reference):
-    """function to print all the tasks if no arguments, or print tasks with the given argument 'todo','done'or'in-progress'"""
+    """function to print all tasks, or task with given status"""
 
     valid_status = ('todo', 'done', 'in-progress')
     stripped_reference = str(status_reference).strip("(,')")
@@ -72,7 +72,7 @@ def print_by_status(*status_reference):
     elif stripped_reference in valid_status :
         print("\nListing all tasks that are status: ", stripped_reference)
     else :
-        print("this is not a valid input, input should be 'todo', 'in-progress' or 'done'") 
+        print("this is not a valid input, input should be 'todo', 'in-progress' or 'done'")
 
     print("\nTask ID, description, status, date and time created, date and time updated")
     for extract in data :
@@ -82,15 +82,14 @@ def print_by_status(*status_reference):
                 print(value, " ", end="")
             elif extract['status'] == stripped_reference :
                 print(value, " ", end="")
-                
 
 def update_list(task_id, new_description):
     """function to change the description with the a given id"""
     print('\nupdating task', task_id)
     data = read_from_json()
-    
+
     i = 0
-    while i < len(data) :               #remove while loop
+    while i < len(data) :               #remove while Loop
         extract = data[i]
         if extract['id'] == int(task_id) :
             extract['description'] = new_description
@@ -124,11 +123,11 @@ def change_status(task_id, status) :
     write_to_json(data)
 
 def end() :
-    """function to end the program by making the loop False"""
+    """function to end the program by making the Loop False"""
 
     print('end of cli-task')
-    global LOOP
-    LOOP = False
+    global Loop
+    Loop = False
 
 def format_task(string_to_be_formatted):
     """function to remove speech marks"""
@@ -145,12 +144,13 @@ if __name__ == "__main__":
         'mark-done' :change_status,
         'list' : print_by_status ,
     }
-    
-    input_error_message = '\nNot a valid task-cli command, commands are:\n\ntask-cli add <task name>\ntask-cli update <ID> <task name>\ntask-cli delete <task ID>\ntask-cli mark-in-progress <ID>\ntask-cli mark-done <ID>\ntask-cli list <todo/in-progress/done>\nend'
+    error_message = ('\nNot a valid task-cli command, commands are:\n\ntask-cli add <task name>'
+        '\ntask-cli update <ID> <task name>\ntask-cli delete <task ID>\ntask-cli mark-in-progress'
+        ' <ID>\ntask-cli mark-done <ID>\ntask-cli list <todo/in-progress/done>\nend')
 
     print('\nWelcome to cli task tracker....what would you like to do?')
 
-    while (LOOP) :
+    while Loop :
 
         user_command = input("\nCommand: ")
         split_input_list = user_command.split(' ', 2)
@@ -189,8 +189,8 @@ if __name__ == "__main__":
                 else :
                     print('not in valid_inputs')
             else :
-                print(input_error_message)
+                print(error_message)
         elif split_input_list[0] == 'end' :
             end()
         else :
-            print(input_error_message)
+            print(error_message)
