@@ -61,7 +61,7 @@ def add_to_list(task):
     print('Task added successfully (ID: ', next_id, ')')
 
 def print_by_status(*status_reference):
-    """function to print all the tasks with no arguments, or the status if given as an argument"""
+    """function to print all the tasks if no arguments, or print tasks with the given argument 'todo','done'or'in-progress'"""
 
     valid_status = ('todo', 'done', 'in-progress')
     stripped_reference = str(status_reference).strip("(,')")
@@ -69,19 +69,20 @@ def print_by_status(*status_reference):
 
     if stripped_reference == '' :           #if empty string print all tasks
         print("\nListing all tasks...")
-        print("\nTask ID, description, status, date and time created, date and time updated")
-        for extract in data :
-            print(extract['id'], ". ", extract['description'], ", ", extract['status'], ", ", extract['created_at'], ". ", extract['updated_at'])
-
     elif stripped_reference in valid_status :
         print("\nListing all tasks that are status: ", stripped_reference)
-        for extract in data :
-            if extract['status'] == stripped_reference :
-                print(extract['id'], ". ", extract['description'], ", ", extract['status'], ", ", extract['created_at'], ". ", extract['updated_at'])
     else :
-        print("this is not a valid input, input should be 'todo', 'in-progress' or 'done'")
-        #need to print...'there are no tasks marked 'done' or 'in-progress' etc
+        print("this is not a valid input, input should be 'todo', 'in-progress' or 'done'") 
 
+    print("\nTask ID, description, status, date and time created, date and time updated")
+    for extract in data :
+        print('')
+        for key, value in extract.items() :
+            if stripped_reference == '' :
+                print(value, " ", end="")
+            elif extract['status'] == stripped_reference :
+                print(value, " ", end="")
+                
 
 def update_list(task_id, new_description):
     """function to change the description with the a given id"""
