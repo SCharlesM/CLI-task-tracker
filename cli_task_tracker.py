@@ -76,10 +76,11 @@ def print_by_status(*status_reference):
 
     print("\nTask ID, description, status, date and time created, date and time updated")
     for extract in data :
-        print('')
         for key, value in extract.items() :
             if stripped_reference == '' :
                 print(value, " ", end="")
+                if key == 'updated_at' :
+                    print('')
             elif extract['status'] == stripped_reference :
                 print(value, " ", end="")
 
@@ -94,7 +95,7 @@ def update_list(task_id, new_description):
         if extract['id'] == int(task_id) :
             extract['description'] = new_description
             formatted_timestamp = strftime("%X %x", localtime())
-            extract['updatedAt'] = formatted_timestamp #does this timestamp need to change?
+            extract['updated_at'] = formatted_timestamp 
             data[i] = extract
         i += 1
 
@@ -154,24 +155,35 @@ if __name__ == "__main__":
         user_command = input("\nCommand: ")
         split_input_list = user_command.split(' ', 2)
         
-        #match user_command.split(' ', 2) :
-
-        match split_input_list[1] :
-            case 'add':
-                print('add function')
-            case 'update' :
-                print('update function')
-            case 'delete' :
-                print('delete function')
-            case 'mark-in-progress' :
-                print('mark-in-progress')
-            case 'mark-done' :
-                print('mark done')
-            case 'list' :
-                print('list')
-            case _:
-                print(error_message)
-                 
+        if split_input_list[0] == 'task-cli' :
+            match split_input_list[1] :
+                case 'add':
+                    add_to_list(split_input_list[2])
+                case 'update' :
+                    new_split = split_input_list[2].split('"')
+                    task_id = new_split[0].strip()
+                    if task_id.isnumeric() :
+                        update_list(task_id, new_split[1])
+                    else :
+                        print(error_message)
+                case 'delete' :
+                    print('delete function')
+                case 'mark-in-progress' :
+                    print('mark-in-progress')
+                case 'mark-done' :
+                    print('mark done')
+                case 'list' :
+                    #print('list')
+                    if len(split_input_list) > 2 :
+                        print_by_status(split_input_list[2])
+                    else :
+                        print_by_status()
+                case _:
+                    print(error_message)
+        elif split_input_list[0] == 'end' :
+            end()
+        else :
+            print(error_message)     
 
 
     """
