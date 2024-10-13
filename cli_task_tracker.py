@@ -151,6 +151,31 @@ if __name__ == "__main__":
     print('\nWelcome to cli task tracker....what would you like to do?')
 
     while Loop :
+        user_command = input("\nCommand: ")
+        split_input_list = user_command.split(' ', 2)
+        
+        #match user_command.split(' ', 2) :
+
+        match split_input_list[1] :
+            case 'add':
+                print('add function')
+            case 'update' :
+                print('update function')
+            case 'delete' :
+                print('delete function')
+            case 'mark-in-progress' :
+                print('mark-in-progress')
+            case 'mark-done' :
+                print('mark done')
+            case 'list' :
+                print('list')
+            case _:
+                print(error_message)
+                 
+
+
+    """
+    while Loop :
 
         user_command = input("\nCommand: ")
         split_input_list = user_command.split(' ', 2)
@@ -194,3 +219,4 @@ if __name__ == "__main__":
             end()
         else :
             print(error_message)
+    """
