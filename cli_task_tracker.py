@@ -85,20 +85,15 @@ def print_by_status(*status_reference):
                 print(value, " ", end="")
 
 def update_list(task_id, new_description):
-    """function to change the description with the a given id"""
+    """function to change the description with a given id"""
     print('\nupdating task', task_id)
     data = read_from_json()
 
-    i = 0
-    while i < len(data) :               #remove while Loop
-        extract = data[i]
-        if extract['id'] == int(task_id) :
-            extract['description'] = new_description
+    for item in data :
+        if item['id'] == int(task_id) :
+            item['description'] = new_description
             formatted_timestamp = strftime("%X %x", localtime())
-            extract['updated_at'] = formatted_timestamp
-            data[i] = extract
-        i += 1
-
+            item['updated_at'] = formatted_timestamp
     write_to_json(data)
 
 def delete_from_list(task_id) :
