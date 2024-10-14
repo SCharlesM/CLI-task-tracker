@@ -60,6 +60,7 @@ def add_to_list(task):
     write_to_json(data)
     print('Task added successfully (ID: ', next_id, ')')
 
+
 def print_by_status(*status_reference):
     """function to print all tasks, or task with given status"""
 
@@ -76,29 +77,27 @@ def print_by_status(*status_reference):
 
     print("\nTask ID, description, status, date and time created, date and time updated")
     for extract in data :
-        print('')
         for key, value in extract.items() :
             if stripped_reference == '' :
                 print(value, " ", end="")
+                if key == 'updated_at' :
+                    print('')
             elif extract['status'] == stripped_reference :
                 print(value, " ", end="")
 
+
 def update_list(task_id, new_description):
-    """function to change the description with the a given id"""
+    """function to change the description with a given id"""
     print('\nupdating task', task_id)
     data = read_from_json()
 
-    i = 0
-    while i < len(data) :               #remove while Loop
-        extract = data[i]
-        if extract['id'] == int(task_id) :
-            extract['description'] = new_description
+    for item in data :
+        if item['id'] == int(task_id) :
+            item['description'] = new_description
             formatted_timestamp = strftime("%X %x", localtime())
-            extract['updatedAt'] = formatted_timestamp #does this timestamp need to change?
-            data[i] = extract
-        i += 1
-
+            item['updated_at'] = formatted_timestamp
     write_to_json(data)
+
 
 def delete_from_list(task_id) :
     """function to remove the dictionary from the list with given id"""
@@ -122,6 +121,7 @@ def change_status(task_id, status) :
             entry['updated_at'] = strftime("%X %x", localtime())
     write_to_json(data)
 
+
 def end() :
     """function to end the program by making the Loop False"""
 
@@ -129,21 +129,9 @@ def end() :
     global Loop
     Loop = False
 
-def format_task(string_to_be_formatted):
-    """function to remove speech marks"""
-    task = string_to_be_formatted.replace('"', '')
-    return task
 
 if __name__ == "__main__":
 
-    valid_inputs = {
-        'add' : add_to_list,
-        'update' : update_list,
-        'delete' : delete_from_list,
-        'mark-in-progress' : change_status,
-        'mark-done' :change_status,
-        'list' : print_by_status ,
-    }
     error_message = ('\nNot a valid task-cli command, commands are:\n\ntask-cli add <task name>'
         '\ntask-cli update <ID> <task name>\ntask-cli delete <task ID>\ntask-cli mark-in-progress'
         ' <ID>\ntask-cli mark-done <ID>\ntask-cli list <todo/in-progress/done>\nend')
@@ -151,45 +139,43 @@ if __name__ == "__main__":
     print('\nWelcome to cli task tracker....what would you like to do?')
 
     while Loop :
-
         user_command = input("\nCommand: ")
         split_input_list = user_command.split(' ', 2)
 
         if split_input_list[0] == 'task-cli' :
+            match split_input_list[1] :
 
-            if split_input_list[1] in valid_inputs :
+                case 'add':
+                    add_to_list(split_input_list[2])
 
-                if split_input_list[1] == 'update' :
-                    x, y = split_input_list[2].split(' ', 1)
-                    y = y.replace('"', '')
-                    update_list(x,y)            #need to remove '"' from the new description
-
-                elif split_input_list[1] == 'list' :
-                    if len(split_input_list) > 2 :
-                        x = split_input_list[2]
-                        valid_inputs[split_input_list[1]](x)
+                case 'update' :
+                    new_split = split_input_list[2].split('"')
+                    a = new_split[0].strip()
+                    if a.isnumeric() :
+                        update_list(a, new_split[1])
                     else :
-                        valid_inputs[split_input_list[1]]()
+                        print(error_message)
 
-                elif split_input_list[1] == 'delete' :
-                    x = split_input_list[2]
-                    delete_from_list(x)
+                case 'delete' :
+                    if len(split_input_list) < 3 :
+                        print(error_message)
+                    else :
+                        delete_from_list(split_input_list[2])
 
-                elif split_input_list[1] == 'mark-in-progress' :
-                    index = split_input_list[2]
-                    change_status(index, 'in-progress')
+                case 'mark-in-progress' :
+                    change_status(split_input_list[2], 'in-progress')
 
-                elif split_input_list[1] == 'mark-done' :
-                    index = split_input_list[2]
-                    change_status(index, 'done')
+                case 'mark-done' :
+                    change_status(split_input_list[2], 'done')
 
-                elif split_input_list[1] == 'add' :
-                    x = split_input_list[2]
-                    valid_inputs[split_input_list[1]](x)
-                else :
-                    print('not in valid_inputs')
-            else :
-                print(error_message)
+                case 'list' :
+                    if len(split_input_list) > 2 :
+                        print_by_status(split_input_list[2])
+                    else :
+                        print_by_status()
+
+                case _:
+                    print(error_message)
         elif split_input_list[0] == 'end' :
             end()
         else :
