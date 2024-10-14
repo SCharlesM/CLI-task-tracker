@@ -60,6 +60,7 @@ def add_to_list(task):
     write_to_json(data)
     print('Task added successfully (ID: ', next_id, ')')
 
+
 def print_by_status(*status_reference):
     """function to print all tasks, or task with given status"""
 
@@ -84,6 +85,7 @@ def print_by_status(*status_reference):
             elif extract['status'] == stripped_reference :
                 print(value, " ", end="")
 
+
 def update_list(task_id, new_description):
     """function to change the description with a given id"""
     print('\nupdating task', task_id)
@@ -95,6 +97,7 @@ def update_list(task_id, new_description):
             formatted_timestamp = strftime("%X %x", localtime())
             item['updated_at'] = formatted_timestamp
     write_to_json(data)
+
 
 def delete_from_list(task_id) :
     """function to remove the dictionary from the list with given id"""
@@ -118,6 +121,7 @@ def change_status(task_id, status) :
             entry['updated_at'] = strftime("%X %x", localtime())
     write_to_json(data)
 
+
 def end() :
     """function to end the program by making the Loop False"""
 
@@ -125,10 +129,6 @@ def end() :
     global Loop
     Loop = False
 
-def format_task(string_to_be_formatted):
-    """function to remove speech marks"""
-    task = string_to_be_formatted.replace('"', '')
-    return task
 
 if __name__ == "__main__":
 
