@@ -95,7 +95,7 @@ def update_list(task_id, new_description):
         if extract['id'] == int(task_id) :
             extract['description'] = new_description
             formatted_timestamp = strftime("%X %x", localtime())
-            extract['updated_at'] = formatted_timestamp 
+            extract['updated_at'] = formatted_timestamp
             data[i] = extract
         i += 1
 
@@ -137,14 +137,6 @@ def format_task(string_to_be_formatted):
 
 if __name__ == "__main__":
 
-    valid_inputs = {
-        'add' : add_to_list,
-        'update' : update_list,
-        'delete' : delete_from_list,
-        'mark-in-progress' : change_status,
-        'mark-done' :change_status,
-        'list' : print_by_status ,
-    }
     error_message = ('\nNot a valid task-cli command, commands are:\n\ntask-cli add <task name>'
         '\ntask-cli update <ID> <task name>\ntask-cli delete <task ID>\ntask-cli mark-in-progress'
         ' <ID>\ntask-cli mark-done <ID>\ntask-cli list <todo/in-progress/done>\nend')
@@ -154,81 +146,42 @@ if __name__ == "__main__":
     while Loop :
         user_command = input("\nCommand: ")
         split_input_list = user_command.split(' ', 2)
-        
+
         if split_input_list[0] == 'task-cli' :
             match split_input_list[1] :
+
                 case 'add':
                     add_to_list(split_input_list[2])
+
                 case 'update' :
                     new_split = split_input_list[2].split('"')
-                    task_id = new_split[0].strip()
-                    if task_id.isnumeric() :
-                        update_list(task_id, new_split[1])
+                    a = new_split[0].strip()
+                    if a.isnumeric() :
+                        update_list(a, new_split[1])
                     else :
                         print(error_message)
+
                 case 'delete' :
-                    print('delete function')
+                    if len(split_input_list) < 3 :
+                        print(error_message)
+                    else :
+                        delete_from_list(split_input_list[2])
+
                 case 'mark-in-progress' :
-                    print('mark-in-progress')
+                    change_status(split_input_list[2], 'in-progress')
+
                 case 'mark-done' :
-                    print('mark done')
+                    change_status(split_input_list[2], 'done')
+
                 case 'list' :
-                    #print('list')
                     if len(split_input_list) > 2 :
                         print_by_status(split_input_list[2])
                     else :
                         print_by_status()
+
                 case _:
                     print(error_message)
         elif split_input_list[0] == 'end' :
             end()
         else :
-            print(error_message)     
-
-
-    """
-    while Loop :
-
-        user_command = input("\nCommand: ")
-        split_input_list = user_command.split(' ', 2)
-
-        if split_input_list[0] == 'task-cli' :
-
-            if split_input_list[1] in valid_inputs :
-
-                if split_input_list[1] == 'update' :
-                    x, y = split_input_list[2].split(' ', 1)
-                    y = y.replace('"', '')
-                    update_list(x,y)            #need to remove '"' from the new description
-
-                elif split_input_list[1] == 'list' :
-                    if len(split_input_list) > 2 :
-                        x = split_input_list[2]
-                        valid_inputs[split_input_list[1]](x)
-                    else :
-                        valid_inputs[split_input_list[1]]()
-
-                elif split_input_list[1] == 'delete' :
-                    x = split_input_list[2]
-                    delete_from_list(x)
-
-                elif split_input_list[1] == 'mark-in-progress' :
-                    index = split_input_list[2]
-                    change_status(index, 'in-progress')
-
-                elif split_input_list[1] == 'mark-done' :
-                    index = split_input_list[2]
-                    change_status(index, 'done')
-
-                elif split_input_list[1] == 'add' :
-                    x = split_input_list[2]
-                    valid_inputs[split_input_list[1]](x)
-                else :
-                    print('not in valid_inputs')
-            else :
-                print(error_message)
-        elif split_input_list[0] == 'end' :
-            end()
-        else :
             print(error_message)
-    """
